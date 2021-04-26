@@ -1,10 +1,10 @@
-# Cordova/PhoneGap sqlite storage - premium enterprise version with premium stability and performance improvements with limited extra features
+# Cordova/PhoneGap sqlite storage evmax legacy demo - super-premium enterprise version with premium stability and performance improvements with limited extra features
 
 Native SQLite component with API based on HTML5/[Web SQL (DRAFT) API](http://www.w3.org/TR/webdatabase/) for the following platforms:
 - Android
 - iOS
 - macOS ("osx" platform)
-- Windows 10 (UWP) DESKTOP ~~and MOBILE~~ (see below for major limitations)
+- ~~Windows 10 (UWP) DESKTOP and MOBILE~~ - **not enabled** in this plugin version
 
 <!-- [TBD] HIDE browser usage notes for now (at least):
 Browser platform is currently supported with some limitations as described in [browser platform usage notes](#browser-platform-usage-notes) section below, will be supported with more features such as numbered parameters and SQL batch API in the near future.
@@ -12,9 +12,12 @@ Browser platform is currently supported with some limitations as described in [b
 
 This plugin version uses a special, non-standard Android NDK sqlite database access library (C-language implementation), with some premium improvements to the internal JSON interface between the Javascript and native Android implementation, to provide significant performance and memory usage improvements on the Android platform.
 
-This plugin version is available under GPL v3 (<https://www.gnu.org/licenses/gpl-3.0.txt>) or commercial license options and includes components available under the MIT and Apache 2.0 licenses listed in [LICENSE.md](./LICENSE.md). Contact for commercial license: <sales@litehelpers.net>
+This plugin version is available under GPL v3 (<https://www.gnu.org/licenses/gpl-3.0.txt>) or super-premium commercial license options and includes components available under the MIT and Apache 2.0 licenses listed in [LICENSE.md](./LICENSE.md). Contact for commercial license: <sales@storesafe.io>
 
-**NOTICE:** Commercial licenses for [litehelpers / Cordova-sqlite-evcore-extbuild-free](https://github.com/litehelpers/Cordova-sqlite-evcore-extbuild-free) and [litehelpers / Cordova-sqlite-enterprise-free](https://github.com/litehelpers/Cordova-sqlite-enterprise-free) are **not** valid for this plugin version. For an upgrade please contact: <sales@litehelpers.net>
+**NOTICE:** Commercial licenses for evplus, [litehelpers / Cordova-sqlite-evcore-extbuild-free](https://github.com/litehelpers/Cordova-sqlite-evcore-extbuild-free) or [litehelpers / Cordova-sqlite-enterprise-free](https://github.com/litehelpers/Cordova-sqlite-enterprise-free) are **not** valid for this plugin version. For an upgrade please contact: <sales@storesafe.io>
+
+
+**STATUS:** This is a demo plugin version published for testing. A new evmax plugin version with the arbitrary Android database location feature is expected to be published in the near future.
 
 ## WARNINGS
 

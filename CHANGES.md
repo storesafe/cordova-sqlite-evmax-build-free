@@ -1,5 +1,9 @@
 # Changes
 
+## cordova-sqlite-evmax-legacy-common-demo-free 0.0.1-dev
+
+- disable this plugin version on Windows
+
 ## cordova-plugin-sqlite-evplus-ext-common-free 0.5.0-pre01
 
 - updates from cordova-sqlite-evplus-ext-free-dependencies 0.2.0-rc01
