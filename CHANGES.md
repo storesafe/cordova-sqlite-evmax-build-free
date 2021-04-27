@@ -2,6 +2,7 @@
 
 ## cordova-sqlite-evmax-legacy-common-demo-free 0.0.1-dev
 
+- workaround for super-large INSERT transactions on Android
 - disable this plugin version on Windows
 
 ## cordova-plugin-sqlite-evplus-ext-common-free 0.5.0-pre01

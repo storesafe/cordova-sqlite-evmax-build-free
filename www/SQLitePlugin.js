@@ -323,8 +323,7 @@ Contact for commercial license: sales@litehelpers.net
     this.success = success;
     this.txlock = txlock;
     this.readOnly = readOnly;
-    this.executesLength = 0;
-    this.flatExecutesList = [];
+    this.flatExecutesEntries = [];
     this.executeCallbacks = [];
     if (txlock) {
       this.addStatement("BEGIN", [], null, function(tx, err) {
@@ -370,8 +369,7 @@ Contact for commercial license: sales@litehelpers.net
   SQLitePluginTransaction.prototype.addStatement = function(sql, values, success, error) {
     var flatlist, l, len1, sqlStatement, t, v;
     sqlStatement = typeof sql === 'string' ? sql : sql.toString();
-    this.executesLength++;
-    flatlist = this.flatExecutesList;
+    flatlist = [];
     flatlist.push(sqlStatement);
     if (!!values && values.constructor === Array) {
       flatlist.push(values.length);
@@ -383,6 +381,7 @@ Contact for commercial license: sales@litehelpers.net
     } else {
       flatlist.push(0);
     }
+    this.flatExecutesEntries.push(flatlist);
     this.executeCallbacks.push({
       success: success,
       error: error
@@ -418,14 +417,12 @@ Contact for commercial license: sales@litehelpers.net
   };
 
   SQLitePluginTransaction.prototype.run = function() {
-    var batchExecuteCallbacks, batchExecutesLength, flatBatchExecutes, handlerFor, tx, txFailure, waiting;
+    var batchExecuteCallbacks, flatBatchExecutesEntries, handlerFor, tx, txFailure, waiting;
     txFailure = null;
-    batchExecutesLength = this.executesLength;
-    flatBatchExecutes = this.flatExecutesList;
+    flatBatchExecutesEntries = this.flatExecutesEntries;
     batchExecuteCallbacks = this.executeCallbacks;
-    waiting = batchExecutesLength;
-    this.executesLength = 0;
-    this.flatExecutesList = [];
+    waiting = flatBatchExecutesEntries.length;
+    this.flatExecutesEntries = [];
     this.executeCallbacks = [];
     tx = this;
     handlerFor = function(index, didSucceed) {
@@ -445,11 +442,10 @@ Contact for commercial license: sales@litehelpers.net
         }
         if (--waiting === 0) {
           if (txFailure) {
-            tx.executesLength = 0;
-            tx.flatExecutesList = [];
+            tx.flatExecutesEntries = [];
             tx.executeCallbacks = [];
             tx.$abort(txFailure);
-          } else if (tx.executesLength > 0) {
+          } else if (tx.flatExecutesEntries.length > 0) {
             tx.run();
           } else {
             tx.$finish();
@@ -458,20 +454,16 @@ Contact for commercial license: sales@litehelpers.net
       };
     };
     if (this.db.fjmap[this.db.dbname]) {
-      this.run_batch_flatjson(batchExecutesLength, flatBatchExecutes, handlerFor);
+      this.run_batch_flatjson(flatBatchExecutesEntries, handlerFor);
     } else {
-      this.run_batch1(batchExecutesLength, flatBatchExecutes, handlerFor);
+      this.run_batch1(flatBatchExecutesEntries, handlerFor);
     }
   };
 
-  SQLitePluginTransaction.prototype.run_batch_flatjson = function(batchExecutesLength, flatBatchExecutes, handlerFor) {
-    var check1, flatlist, mycb, mycb2, rrr;
+  SQLitePluginTransaction.prototype.run_batch_flatjson = function(flatBatchExecutesEntries, handlerFor) {
+    var batchExecutesLength, mycb;
     this.db.dbid = this.db.dbidmap[this.db.dbname];
-    flatlist = [this.db.dbid, batchExecutesLength];
-    flatlist = flatlist.concat(flatBatchExecutes);
-    flatlist.push('extra');
-    check1 = false;
-    rrr = [];
+    batchExecutesLength = flatBatchExecutesEntries.length;
     mycb = function(result) {
       var c, changes, code, errormessage, i, insert_id, j, k, r, ri, rl, row, rows, v;
       i = 0;
@@ -545,50 +537,114 @@ Contact for commercial license: sales@litehelpers.net
         ++i;
       }
     };
+    if (this.db.dbid === -1) {
+      this.run_batch_flat_with_dbname(flatBatchExecutesEntries, mycb);
+    } else {
+      this.run_batch_flat_with_dbid_part1(flatBatchExecutesEntries, mycb);
+    }
+  };
+
+  SQLitePluginTransaction.prototype.run_batch_flat_with_dbname = function(flatBatchExecutesEntries, mycb) {
+    var batchExecutesLength, e, flatlist, l, len1;
+    batchExecutesLength = flatBatchExecutesEntries.length;
+    flatlist = [this.db.dbid, batchExecutesLength];
+    for (l = 0, len1 = flatBatchExecutesEntries.length; l < len1; l++) {
+      e = flatBatchExecutesEntries[l];
+      flatlist = flatlist.concat(e);
+    }
+    flatlist.push('extra');
+    cordova.exec(mycb, null, "SQLitePlugin", "fj", [
+      {
+        dbargs: {
+          dbname: this.db.dbname
+        },
+        flen: batchExecutesLength,
+        flatlist: flatlist
+      }
+    ]);
+  };
+
+  SQLitePluginTransaction.prototype.run_batch_flat_with_dbid_part1 = function(flatBatchExecutesEntries, mycb) {
+    var check1, mycb2, rrr;
+    check1 = false;
+    rrr = [];
     mycb2 = function(result) {
       if (result.length === 0) {
         return mycb(rrr);
       } else if (result[0] === "multi") {
-        return check1 = true;
+        check1 = true;
       } else if (result[0] === null) {
         if (check1) {
           return mycb(rrr);
         }
       } else {
         if (check1) {
-          return rrr = rrr.concat(result.slice(0, result.length - 1));
+          rrr = rrr.concat(result);
         } else {
-          return mycb(result);
+          return;
         }
       }
     };
-    if (this.db.dbid !== -1) {
-      cordova.exec(mycb2, null, "SQLitePlugin", "fj:" + flatlist.length + ";extra", flatlist);
-    } else {
-      cordova.exec(mycb, null, "SQLitePlugin", "fj", [
-        {
-          dbargs: {
-            dbname: this.db.dbname
-          },
-          flen: batchExecutesLength,
-          flatlist: flatlist
-        }
-      ]);
-    }
+    this.run_batch_flat_with_dbid_part2(flatBatchExecutesEntries, mycb2);
   };
 
-  SQLitePluginTransaction.prototype.run_batch1 = function(batchExecutesLength, flatBatchExecutes, handlerFor) {
-    var fi, fi2, i, mycb, mycbmap, params, paramsCount, sql, tropts;
+  SQLitePluginTransaction.prototype.run_batch_flat_with_dbid_part2 = function(flatBatchExecutesEntries, cb) {
+    var batchExecutesLength, mydbid, partial, resultSet;
+    cb(['multi']);
+    batchExecutesLength = flatBatchExecutesEntries.length;
+    mydbid = this.db.dbid;
+    resultSet = [];
+    partial = function(index) {
+      var cb1, ch1, firstIndex, flatchars, flatdata, flatlist, flen, nextchars;
+      firstIndex = index;
+      flatdata = [].concat(flatBatchExecutesEntries[index]);
+      flatchars = flatdata.join().length;
+      while (index + 1 < batchExecutesLength) {
+        nextchars = flatBatchExecutesEntries[index + 1].join().length;
+        if (flatchars + nextchars > 20 * 1000 * 1000) {
+          break;
+        }
+        flatchars = flatchars + nextchars;
+        ++index;
+        flatdata = flatdata.concat(flatBatchExecutesEntries[index]);
+      }
+      flen = index - firstIndex + 1;
+      flatlist = [mydbid, flen];
+      flatlist = flatlist.concat(flatdata);
+      flatlist.push('extra');
+      ch1 = false;
+      cb1 = function(result) {
+        if (result[0] === 'multi') {
+          ch1 = true;
+        } else if (result[0] !== null) {
+          resultSet = resultSet.concat(result.slice(0, result.length - 1));
+          if (!ch1) {
+            cb1([null]);
+          }
+        } else {
+          if (index + 1 === batchExecutesLength) {
+            cb(resultSet);
+            cb([null]);
+          } else {
+            partial(index + 1);
+          }
+        }
+      };
+      cordova.exec(cb1, null, "SQLitePlugin", "fj:" + flatlist.length + ";extra", flatlist);
+    };
+    partial(0);
+  };
+
+  SQLitePluginTransaction.prototype.run_batch1 = function(flatBatchExecutesEntries, handlerFor) {
+    var batchExecutesLength, i, mycb, mycbmap, params, paramsCount, sql, tropts;
+    batchExecutesLength = flatBatchExecutesEntries.length;
     tropts = [];
     mycbmap = {};
-    fi = 0;
     i = 0;
     while (i < batchExecutesLength) {
-      sql = flatBatchExecutes[fi++];
-      paramsCount = flatBatchExecutes[fi++];
-      fi2 = fi + paramsCount;
-      params = flatBatchExecutes.slice(fi, fi2);
-      fi = fi2;
+      sql = flatBatchExecutesEntries[i][0];
+      paramsCount = flatBatchExecutesEntries[i][1];
+      params = flatBatchExecutesEntries[i].slice(2);
       mycbmap[i] = {
         success: handlerFor(i, true),
         error: handlerFor(i, false)

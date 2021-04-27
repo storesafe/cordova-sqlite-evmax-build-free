@@ -373,8 +373,7 @@
       @txlock = txlock
       @readOnly = readOnly
 
-      @executesLength = 0
-      @flatExecutesList = []
+      @flatExecutesEntries = []
       @executeCallbacks = []
 
       if txlock
@@ -426,9 +425,7 @@
       else
         sql.toString()
 
-      @executesLength++
-
-      flatlist = @flatExecutesList
+      flatlist = []
       flatlist.push sqlStatement
 
       if !!values && values.constructor == Array
@@ -443,6 +440,8 @@
 
       else
         flatlist.push 0
+
+      @flatExecutesEntries.push flatlist
 
       @executeCallbacks.push
         success: success
@@ -481,17 +480,15 @@
       txFailure = null
 
       # sql statements from queue:
-      batchExecutesLength = @executesLength
-      flatBatchExecutes = @flatExecutesList
+      flatBatchExecutesEntries = @flatExecutesEntries
       batchExecuteCallbacks = @executeCallbacks
 
       # XXX NOTE: If this length is zero it will not work.
       # Workaround is applied in the constructor.
       # FUTURE TBD: It would be better to fix the problem here.
 
-      waiting = batchExecutesLength
-      @executesLength = 0
-      @flatExecutesList = []
+      waiting = flatBatchExecutesEntries.length
+      @flatExecutesEntries = []
       @executeCallbacks = []
 
       # my tx object (this)
@@ -512,12 +509,11 @@
 
           if --waiting == 0
             if txFailure
-              tx.executesLength = 0
-              tx.flatExecutesList = []
+              tx.flatExecutesEntries = []
               tx.executeCallbacks = []
 
               tx.$abort txFailure
-            else if tx.executesLength > 0
+            else if tx.flatExecutesEntries.length > 0
               # new requests have been issued by the callback
               # handlers, so run another batch.
               tx.run()
@@ -527,29 +523,19 @@
           return
 
       if @db.fjmap[@db.dbname]
-        @run_batch_flatjson batchExecutesLength, flatBatchExecutes, handlerFor
+        @run_batch_flatjson flatBatchExecutesEntries, handlerFor
       else
-        @run_batch1 batchExecutesLength, flatBatchExecutes, handlerFor
+        @run_batch1 flatBatchExecutesEntries, handlerFor
 
       return
 
     # version with flat JSON interface
-    SQLitePluginTransaction::run_batch_flatjson = (batchExecutesLength, flatBatchExecutes, handlerFor) ->
+    SQLitePluginTransaction::run_batch_flatjson = (flatBatchExecutesEntries, handlerFor) ->
       # XXX TBD evidently not always set in SQLitePlugin::open
       # FUTURE TBD more elegant solution that may possibly be more efficient
       @db.dbid = @db.dbidmap[@db.dbname]
 
-      flatlist = [@db.dbid, batchExecutesLength]
-
-      # Use Array.prototype.concat since Array.prototype.push should not be applied on
-      # applied on large number of elements ref:
-      # https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push#Merging_two_arrays
-      flatlist = flatlist.concat(flatBatchExecutes)
-
-      flatlist.push 'extra'
-
-      check1 = false
-      rrr = []
+      batchExecutesLength = flatBatchExecutesEntries.length
 
       mycb = (result) ->
         i = 0
@@ -631,6 +617,35 @@
 
         return
 
+      if @db.dbid is -1
+        @run_batch_flat_with_dbname flatBatchExecutesEntries, mycb
+      else
+        @run_batch_flat_with_dbid_part1 flatBatchExecutesEntries, mycb
+
+      return
+
+    SQLitePluginTransaction::run_batch_flat_with_dbname = (flatBatchExecutesEntries, mycb) ->
+      batchExecutesLength = flatBatchExecutesEntries.length
+
+      flatlist = [@db.dbid, batchExecutesLength]
+
+      # Use Array.prototype.concat since Array.prototype.push should not be applied on
+      # applied on large number of elements ref:
+      # https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push#Merging_two_arrays
+      for e in flatBatchExecutesEntries
+        flatlist = flatlist.concat e
+
+      flatlist.push 'extra'
+
+      cordova.exec mycb, null, "SQLitePlugin", "fj",
+        [{dbargs: {dbname: @db.dbname}, flen: batchExecutesLength, flatlist: flatlist}]
+
+      return
+
+    SQLitePluginTransaction::run_batch_flat_with_dbid_part1 = (flatBatchExecutesEntries, mycb) ->
+      check1 = false
+      rrr = []
+
       mycb2 = (result) ->
         if result.length is 0
           # TBD just in case:
@@ -642,35 +657,82 @@
             return mycb(rrr)
         else
           if check1
-            # TBD ISSUE with result.slice(-1) on Android 4.4
-            # rrr = rrr.concat(result.slice(-1))
-            rrr = rrr.concat(result.slice(0, result.length-1))
+            rrr = rrr.concat(result)
           else
-            return mycb(result)
+            # NOT EXPECTED HERE
+            return
+        return
 
-      # NOTE: flatlist.length is needed internally for the JSON decoding.
-      if @db.dbid isnt -1
-        cordova.exec mycb2, null, "SQLitePlugin", "fj:#{flatlist.length};extra", flatlist
+      @run_batch_flat_with_dbid_part2 flatBatchExecutesEntries, mycb2
 
-      else
-        cordova.exec mycb, null, "SQLitePlugin", "fj",
-          [{dbargs: {dbname: @db.dbname}, flen: batchExecutesLength, flatlist: flatlist}]
+      return
+
+    SQLitePluginTransaction::run_batch_flat_with_dbid_part2 = (flatBatchExecutesEntries, cb) ->
+      cb(['multi'])
+
+      batchExecutesLength = flatBatchExecutesEntries.length
+
+      mydbid = @db.dbid
+
+      resultSet = []
+
+      partial = (index) ->
+        firstIndex = index
+        flatdata = [].concat flatBatchExecutesEntries[index]
+        flatchars = flatdata.join().length
+        while index + 1 < batchExecutesLength
+          nextchars = flatBatchExecutesEntries[index + 1].join().length
+          if (flatchars + nextchars > 20 * 1000 * 1000)
+            break
+          flatchars = flatchars + nextchars
+          ++index
+          flatdata = flatdata.concat flatBatchExecutesEntries[index]
+
+        flen = index - firstIndex + 1
+
+        flatlist = [mydbid, flen]
+
+        flatlist = flatlist.concat flatdata
+
+        flatlist.push 'extra'
+
+        ch1 = false
+        cb1 = (result) ->
+          if result[0] is 'multi'
+            ch1 = true
+          else if result[0] isnt null
+            resultSet = resultSet.concat result.slice(0, result.length-1)
+            if !ch1
+              cb1 [null]
+          else # if result[0] is null
+            if (index + 1 == batchExecutesLength)
+              cb resultSet
+              cb [null]
+            else
+              partial index + 1
+          return
+
+        # NOTE: flatlist.length is needed internally for the JSON decoding.
+        cordova.exec cb1, null, "SQLitePlugin", "fj:#{flatlist.length};extra", flatlist
+
+        return
+
+      partial 0
 
       return
 
     # version for platforms with no flat JSON interface:
-    SQLitePluginTransaction::run_batch1 = (batchExecutesLength, flatBatchExecutes, handlerFor) ->
+    SQLitePluginTransaction::run_batch1 = (flatBatchExecutesEntries, handlerFor) ->
+      batchExecutesLength = flatBatchExecutesEntries.length
+
       tropts = []
       mycbmap = {}
 
-      fi = 0
       i = 0
       while i < batchExecutesLength
-        sql = flatBatchExecutes[fi++]
-        paramsCount = flatBatchExecutes[fi++]
-        fi2 = fi+paramsCount
-        params = flatBatchExecutes.slice(fi, fi2)
-        fi = fi2
+        sql = flatBatchExecutesEntries[i][0]
+        paramsCount = flatBatchExecutesEntries[i][1]
+        params = flatBatchExecutesEntries[i].slice(2)
 
         mycbmap[i] =
           success: handlerFor(i, true)
