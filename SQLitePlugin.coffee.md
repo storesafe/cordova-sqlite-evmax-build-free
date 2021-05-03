@@ -21,6 +21,8 @@
     DB_STATE_INIT = "INIT"
     DB_STATE_OPEN = "OPEN"
 
+    EE_SIZE_LIMIT = 16 * 1024 * 1024
+
 ## global(s):
 
     # per-db map of locking and queueing
@@ -374,6 +376,8 @@
       @readOnly = readOnly
 
       @flatExecutesEntries = []
+      @eCount = 0
+      @eeSize = 0
       @executeCallbacks = []
 
       if txlock
@@ -425,7 +429,25 @@
       else
         sql.toString()
 
-      flatlist = []
+      ee = sql.length + 16 +
+        if !!values && values.constructor == Array
+          values.join().length + 4 * values.length
+        else
+          0
+
+      if @flatExecutesEntries.length is 0 or @eeSize + ee > EE_SIZE_LIMIT
+        e = []
+        e.flen = 0
+        @flatExecutesEntries.push e
+        @eeSize = 0
+
+      flatlist = @flatExecutesEntries.slice(-1)[0]
+
+      ++flatlist.flen
+      ++@eCount
+
+      @eeSize += ee
+
       flatlist.push sqlStatement
 
       if !!values && values.constructor == Array
@@ -440,8 +462,6 @@
 
       else
         flatlist.push 0
-
-      @flatExecutesEntries.push flatlist
 
       @executeCallbacks.push
         success: success
@@ -487,8 +507,11 @@
       # Workaround is applied in the constructor.
       # FUTURE TBD: It would be better to fix the problem here.
 
-      waiting = flatBatchExecutesEntries.length
+      waiting = @eCount
+
       @flatExecutesEntries = []
+      @eCount = 0
+      @eeSize = 0
       @executeCallbacks = []
 
       # my tx object (this)
@@ -510,6 +533,8 @@
           if --waiting == 0
             if txFailure
               tx.flatExecutesEntries = []
+              tx.eCount = 0
+              tx.eeSize = 0
               tx.executeCallbacks = []
 
               tx.$abort txFailure
@@ -523,14 +548,14 @@
           return
 
       if @db.fjmap[@db.dbname]
-        @run_batch_flatjson flatBatchExecutesEntries, handlerFor
+        @run_batch_flatjson flatBatchExecutesEntries, waiting, handlerFor
       else
-        @run_batch1 flatBatchExecutesEntries, handlerFor
+        @run_batch1 flatBatchExecutesEntries, waiting, handlerFor
 
       return
 
     # version with flat JSON interface
-    SQLitePluginTransaction::run_batch_flatjson = (flatBatchExecutesEntries, handlerFor) ->
+    SQLitePluginTransaction::run_batch_flatjson = (flatBatchExecutesEntries, count, handlerFor) ->
       # XXX TBD evidently not always set in SQLitePlugin::open
       # FUTURE TBD more elegant solution that may possibly be more efficient
       @db.dbid = @db.dbidmap[@db.dbname]
@@ -618,13 +643,13 @@
         return
 
       if @db.dbid is -1
-        @run_batch_flat_with_dbname flatBatchExecutesEntries, mycb
+        @run_batch_flat_with_dbname flatBatchExecutesEntries, count, mycb
       else
         @run_batch_flat_with_dbid_part1 flatBatchExecutesEntries, mycb
 
       return
 
-    SQLitePluginTransaction::run_batch_flat_with_dbname = (flatBatchExecutesEntries, mycb) ->
+    SQLitePluginTransaction::run_batch_flat_with_dbname = (flatBatchExecutesEntries, count, mycb) ->
       batchExecutesLength = flatBatchExecutesEntries.length
 
       flatlist = [@db.dbid, batchExecutesLength]
@@ -638,7 +663,7 @@
       flatlist.push 'extra'
 
       cordova.exec mycb, null, "SQLitePlugin", "fj",
-        [{dbargs: {dbname: @db.dbname}, flen: batchExecutesLength, flatlist: flatlist}]
+        [{dbargs: {dbname: @db.dbname}, flen: count, flatlist: flatlist}]
 
       return
 
@@ -677,22 +702,11 @@
       resultSet = []
 
       partial = (index) ->
-        firstIndex = index
-        flatdata = [].concat flatBatchExecutesEntries[index]
-        flatchars = flatdata.join().length
-        while index + 1 < batchExecutesLength
-          nextchars = flatBatchExecutesEntries[index + 1].join().length
-          if (flatchars + nextchars > 20 * 1000 * 1000)
-            break
-          flatchars = flatchars + nextchars
-          ++index
-          flatdata = flatdata.concat flatBatchExecutesEntries[index]
-
-        flen = index - firstIndex + 1
+        flen = flatBatchExecutesEntries[index].flen
 
         flatlist = [mydbid, flen]
 
-        flatlist = flatlist.concat flatdata
+        flatlist = flatlist.concat flatBatchExecutesEntries[index]
 
         flatlist.push 'extra'
 
@@ -722,17 +736,25 @@
       return
 
     # version for platforms with no flat JSON interface:
-    SQLitePluginTransaction::run_batch1 = (flatBatchExecutesEntries, handlerFor) ->
+    SQLitePluginTransaction::run_batch1 = (flatBatchExecutesEntries, count, handlerFor) ->
       batchExecutesLength = flatBatchExecutesEntries.length
+
+      flatlist = []
+
+      for e in flatBatchExecutesEntries
+        flatlist = flatlist.concat e
 
       tropts = []
       mycbmap = {}
 
+      fi = 0
       i = 0
-      while i < batchExecutesLength
-        sql = flatBatchExecutesEntries[i][0]
-        paramsCount = flatBatchExecutesEntries[i][1]
-        params = flatBatchExecutesEntries[i].slice(2)
+      while i < count
+        sql = flatlist[fi++]
+        paramsCount = flatlist[fi++]
+        fi2 = fi+paramsCount
+        params = flatlist.slice(fi, fi2)
+        fi = fi2
 
         mycbmap[i] =
           success: handlerFor(i, true)

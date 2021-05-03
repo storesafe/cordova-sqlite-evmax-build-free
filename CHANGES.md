@@ -2,6 +2,8 @@
 
 ## cordova-sqlite-evmax-legacy-common-demo-free 0.0.2-dev
 
+- improve workaround for 1 million INSERTs in transaction on Android
+
 ## cordova-sqlite-evmax-legacy-common-demo-free 0.0.1-dev
 
 - workaround for super-large INSERT transactions on Android

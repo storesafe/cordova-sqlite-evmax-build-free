@@ -4,7 +4,7 @@ Contact for commercial license: sales@litehelpers.net
  */
 
 (function() {
-  var DB_STATE_INIT, DB_STATE_OPEN, READ_ONLY_REGEX, SQLiteFactory, SQLitePlugin, SQLitePluginTransaction, SelfTest, argsArray, dblocations, iosLocationMap, newSQLError, nextTick, root, txLocks;
+  var DB_STATE_INIT, DB_STATE_OPEN, EE_SIZE_LIMIT, READ_ONLY_REGEX, SQLiteFactory, SQLitePlugin, SQLitePluginTransaction, SelfTest, argsArray, dblocations, iosLocationMap, newSQLError, nextTick, root, txLocks;
 
   root = this;
 
@@ -13,6 +13,8 @@ Contact for commercial license: sales@litehelpers.net
   DB_STATE_INIT = "INIT";
 
   DB_STATE_OPEN = "OPEN";
+
+  EE_SIZE_LIMIT = 16 * 1024 * 1024;
 
   txLocks = {};
 
@@ -324,6 +326,8 @@ Contact for commercial license: sales@litehelpers.net
     this.txlock = txlock;
     this.readOnly = readOnly;
     this.flatExecutesEntries = [];
+    this.eCount = 0;
+    this.eeSize = 0;
     this.executeCallbacks = [];
     if (txlock) {
       this.addStatement("BEGIN", [], null, function(tx, err) {
@@ -367,9 +371,19 @@ Contact for commercial license: sales@litehelpers.net
   };
 
   SQLitePluginTransaction.prototype.addStatement = function(sql, values, success, error) {
-    var flatlist, l, len1, sqlStatement, t, v;
+    var e, ee, flatlist, l, len1, sqlStatement, t, v;
     sqlStatement = typeof sql === 'string' ? sql : sql.toString();
-    flatlist = [];
+    ee = sql.length + 16 + (!!values && values.constructor === Array ? values.join().length + 4 * values.length : 0);
+    if (this.flatExecutesEntries.length === 0 || this.eeSize + ee > EE_SIZE_LIMIT) {
+      e = [];
+      e.flen = 0;
+      this.flatExecutesEntries.push(e);
+      this.eeSize = 0;
+    }
+    flatlist = this.flatExecutesEntries.slice(-1)[0];
+    ++flatlist.flen;
+    ++this.eCount;
+    this.eeSize += ee;
     flatlist.push(sqlStatement);
     if (!!values && values.constructor === Array) {
       flatlist.push(values.length);
@@ -381,7 +395,6 @@ Contact for commercial license: sales@litehelpers.net
     } else {
       flatlist.push(0);
     }
-    this.flatExecutesEntries.push(flatlist);
     this.executeCallbacks.push({
       success: success,
       error: error
@@ -421,8 +434,10 @@ Contact for commercial license: sales@litehelpers.net
     txFailure = null;
     flatBatchExecutesEntries = this.flatExecutesEntries;
     batchExecuteCallbacks = this.executeCallbacks;
-    waiting = flatBatchExecutesEntries.length;
+    waiting = this.eCount;
     this.flatExecutesEntries = [];
+    this.eCount = 0;
+    this.eeSize = 0;
     this.executeCallbacks = [];
     tx = this;
     handlerFor = function(index, didSucceed) {
@@ -443,6 +458,8 @@ Contact for commercial license: sales@litehelpers.net
         if (--waiting === 0) {
           if (txFailure) {
             tx.flatExecutesEntries = [];
+            tx.eCount = 0;
+            tx.eeSize = 0;
             tx.executeCallbacks = [];
             tx.$abort(txFailure);
           } else if (tx.flatExecutesEntries.length > 0) {
@@ -454,13 +471,13 @@ Contact for commercial license: sales@litehelpers.net
       };
     };
     if (this.db.fjmap[this.db.dbname]) {
-      this.run_batch_flatjson(flatBatchExecutesEntries, handlerFor);
+      this.run_batch_flatjson(flatBatchExecutesEntries, waiting, handlerFor);
     } else {
-      this.run_batch1(flatBatchExecutesEntries, handlerFor);
+      this.run_batch1(flatBatchExecutesEntries, waiting, handlerFor);
     }
   };
 
-  SQLitePluginTransaction.prototype.run_batch_flatjson = function(flatBatchExecutesEntries, handlerFor) {
+  SQLitePluginTransaction.prototype.run_batch_flatjson = function(flatBatchExecutesEntries, count, handlerFor) {
     var batchExecutesLength, mycb;
     this.db.dbid = this.db.dbidmap[this.db.dbname];
     batchExecutesLength = flatBatchExecutesEntries.length;
@@ -538,13 +555,13 @@ Contact for commercial license: sales@litehelpers.net
       }
     };
     if (this.db.dbid === -1) {
-      this.run_batch_flat_with_dbname(flatBatchExecutesEntries, mycb);
+      this.run_batch_flat_with_dbname(flatBatchExecutesEntries, count, mycb);
     } else {
       this.run_batch_flat_with_dbid_part1(flatBatchExecutesEntries, mycb);
     }
   };
 
-  SQLitePluginTransaction.prototype.run_batch_flat_with_dbname = function(flatBatchExecutesEntries, mycb) {
+  SQLitePluginTransaction.prototype.run_batch_flat_with_dbname = function(flatBatchExecutesEntries, count, mycb) {
     var batchExecutesLength, e, flatlist, l, len1;
     batchExecutesLength = flatBatchExecutesEntries.length;
     flatlist = [this.db.dbid, batchExecutesLength];
@@ -558,7 +575,7 @@ Contact for commercial license: sales@litehelpers.net
         dbargs: {
           dbname: this.db.dbname
         },
-        flen: batchExecutesLength,
+        flen: count,
         flatlist: flatlist
       }
     ]);
@@ -595,22 +612,10 @@ Contact for commercial license: sales@litehelpers.net
     mydbid = this.db.dbid;
     resultSet = [];
     partial = function(index) {
-      var cb1, ch1, firstIndex, flatchars, flatdata, flatlist, flen, nextchars;
-      firstIndex = index;
-      flatdata = [].concat(flatBatchExecutesEntries[index]);
-      flatchars = flatdata.join().length;
-      while (index + 1 < batchExecutesLength) {
-        nextchars = flatBatchExecutesEntries[index + 1].join().length;
-        if (flatchars + nextchars > 20 * 1000 * 1000) {
-          break;
-        }
-        flatchars = flatchars + nextchars;
-        ++index;
-        flatdata = flatdata.concat(flatBatchExecutesEntries[index]);
-      }
-      flen = index - firstIndex + 1;
+      var cb1, ch1, flatlist, flen;
+      flen = flatBatchExecutesEntries[index].flen;
       flatlist = [mydbid, flen];
-      flatlist = flatlist.concat(flatdata);
+      flatlist = flatlist.concat(flatBatchExecutesEntries[index]);
       flatlist.push('extra');
       ch1 = false;
       cb1 = function(result) {
@@ -635,16 +640,24 @@ Contact for commercial license: sales@litehelpers.net
     partial(0);
   };
 
-  SQLitePluginTransaction.prototype.run_batch1 = function(flatBatchExecutesEntries, handlerFor) {
-    var batchExecutesLength, i, mycb, mycbmap, params, paramsCount, sql, tropts;
+  SQLitePluginTransaction.prototype.run_batch1 = function(flatBatchExecutesEntries, count, handlerFor) {
+    var batchExecutesLength, e, fi, fi2, flatlist, i, l, len1, mycb, mycbmap, params, paramsCount, sql, tropts;
     batchExecutesLength = flatBatchExecutesEntries.length;
+    flatlist = [];
+    for (l = 0, len1 = flatBatchExecutesEntries.length; l < len1; l++) {
+      e = flatBatchExecutesEntries[l];
+      flatlist = flatlist.concat(e);
+    }
     tropts = [];
     mycbmap = {};
+    fi = 0;
     i = 0;
-    while (i < batchExecutesLength) {
-      sql = flatBatchExecutesEntries[i][0];
-      paramsCount = flatBatchExecutesEntries[i][1];
-      params = flatBatchExecutesEntries[i].slice(2);
+    while (i < count) {
+      sql = flatlist[fi++];
+      paramsCount = flatlist[fi++];
+      fi2 = fi + paramsCount;
+      params = flatlist.slice(fi, fi2);
+      fi = fi2;
       mycbmap[i] = {
         success: handlerFor(i, true),
         error: handlerFor(i, false)
@@ -656,8 +669,8 @@ Contact for commercial license: sales@litehelpers.net
       i++;
     }
     mycb = function(result) {
-      var l, q, r, ref, res, resultIndex, type;
-      for (resultIndex = l = 0, ref = result.length - 1; 0 <= ref ? l <= ref : l >= ref; resultIndex = 0 <= ref ? ++l : --l) {
+      var m, q, r, ref, res, resultIndex, type;
+      for (resultIndex = m = 0, ref = result.length - 1; 0 <= ref ? m <= ref : m >= ref; resultIndex = 0 <= ref ? ++m : --m) {
         r = result[resultIndex];
         type = r.type;
         res = r.result;
