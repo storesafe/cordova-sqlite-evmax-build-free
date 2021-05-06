@@ -2,6 +2,8 @@
 
 ## cordova-sqlite-evmax-common-free 0.0.1-dev
 
+- workaround for million-plus statement transactions on Android
+
 ## cordova-plugin-sqlite-evplus-ext-common-free 0.6.0-pre01
 
 - update evplus NDK library - solution for Android 11 with target SDK 30, from cordova-sqlite-evplus-ext-free-dependencies@0.3.0

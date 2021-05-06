@@ -1,4 +1,4 @@
-# Cordova/PhoneGap sqlite storage evmax common branch - super-premium enterprise version with premium stability and performance improvements with limited extra features
+# Cordova/PhoneGap sqlite storage evmax common branch - super-premium enterprise version with super-premium stability and performance improvements with limited extra features
 
 Native SQLite component with API based on HTML5/[Web SQL (DRAFT) API](http://www.w3.org/TR/webdatabase/) for the following platforms:
 - Android
@@ -10,7 +10,7 @@ Native SQLite component with API based on HTML5/[Web SQL (DRAFT) API](http://www
 Browser platform is currently supported with some limitations as described in [browser platform usage notes](#browser-platform-usage-notes) section below, will be supported with more features such as numbered parameters and SQL batch API in the near future.
 - -->
 
-This plugin version uses a special, non-standard Android NDK sqlite database access library (C-language implementation), with some premium improvements to the internal JSON interface between the Javascript and native Android implementation, to provide significant performance and memory usage improvements on the Android platform.
+This plugin version includes workarounds to support super-large INSERT transactions and SELECT results on Android. It also uses a special, non-standard Android NDK sqlite database access library (C-language implementation), with some premium improvements to the internal JSON interface between the Javascript and native Android implementation, to provide significant performance and memory usage improvements on the Android platform.
 
 This plugin version is available under GPL v3 (<https://www.gnu.org/licenses/gpl-3.0.txt>) or super-premium commercial license options and includes components available under the MIT and Apache 2.0 licenses listed in [LICENSE.md](./LICENSE.md). Contact for commercial license: <sales@storesafe.io>
 
@@ -53,7 +53,7 @@ under consideration:
 
 ## About this plugin version
 
-Premium enterprise version with additional performance and stability improvements for Android, iOS, and macOS, including workaround for large SELECT results on Android - with limited extra features (missing pre-populated database support), using the `before_plugin_install` hook to fetch the sqlite3 component dependencies from `cordova-sqlite-evplus-ext-free-dependencies` on GitHub.
+Super-premium enterprise version with additional performance and stability improvements for Android, iOS, and macOS, including workarounds for super-large INSERT transactions and SELECT results on Android - with limited extra features (missing pre-populated database support), using the `before_plugin_install` hook to fetch the sqlite3 component dependencies from `cordova-sqlite-evplus-ext-free-dependencies` on GitHub.
 
 NOTE: This plugin version has external sqlite3 dependencies that are installed by a before_plugin_install hook. FUTURE TBD sqlite3 dependencies will be included if needed by any commercial users for PhoneGap Build or any other build tools.
 
@@ -263,7 +263,7 @@ See the [Sample section](#sample) for a sample with a more detailed explanation 
 
 ## Announcements
 
-- This plugin version branch includes premium improvements to the internal JSON interface between Javascript and native parts on Android, iOS, and macOS which improves the performance and resolves memory issues in case of some very large SQL batches and large SELECT results, with help from [android-sqlite-evplus-ndk-driver-free](https://github.com/storesafe/android-sqlite-evplus-ndk-driver-free) on Android.
+- This plugin version includes a super-premium workaround to support super-large INSERT transactions on Android. It also includes premium improvements to the internal JSON interface between Javascript and native parts on Android, iOS, and macOS which improves the performance and resolves memory issues in case of some very large SQL batches and large SELECT results, with help from [`android-sqlite-evplus-ext-native-driver-free`](https://github.com/storesafe/android-sqlite-evplus-ext-native-driver-free) on Android.
 - This plugin version includes additional JavaScript performance enhancements with special benefit for Android.
 - This plugin version includes the following extra (non-standard) features: BASE 64 (all platforms Android/iOS/macOS/Windows), REGEXP (Android/iOS/macOS)
 - _Using version of SQLite3 (...) with window functions and recent security updates:_
