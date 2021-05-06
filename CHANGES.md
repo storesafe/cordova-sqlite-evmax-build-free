@@ -2,6 +2,8 @@
 
 # cordova-sqlite-evmax-build-free 0.0.2-dev
 
+- fix evmax build URLs in package.json
+
 # cordova-sqlite-evmax-build-free 0.0.1
 
 - use included SQLite3 dependencies in this plugin version
