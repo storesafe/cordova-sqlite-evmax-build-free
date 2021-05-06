@@ -13,8 +13,7 @@
     <description>Native interface to SQLite for PhoneGap/Cordova. Allows you to use more storage and provides more flexibility than the standard Web SQL database (window.openDatabase).</description>
     <author>Litehelpers/Various</author>
 
-    <!-- THANKS to AllJoyn-Cordova / cordova-plugin-alljoyn: -->
-    <hook type="before_plugin_install" src="scripts/beforePluginInstall.js" />
+    <!-- no before_plugin_install hook in this version branch -->
 
     <js-module src="www/SQLitePlugin.js" name="SQLitePlugin">
         <clobbers target="SQLitePlugin" />
@@ -36,7 +35,7 @@
          -->
 
         <!-- ... -->
-        <lib-file src="node_modules/cordova-sqlite-evplus-ext-free-dependencies/sqlc-evplus-ndk-driver.jar" />
+        <lib-file src="src/deps/android/sqlc-evplus-ndk-driver.jar" />
     </platform>
 
     <!-- iOS -->
@@ -54,17 +53,17 @@
         <source-file src="src/ios/CustomPSPDFThreadSafeMutableDictionary.m"
                 compiler-flags="-w" />
 
-        <header-file src="node_modules/cordova-sqlite-evplus-ext-free-dependencies/sqlite3-regexp-cached/sqlite3_regexp.h" />
-        <source-file src="node_modules/cordova-sqlite-evplus-ext-free-dependencies/sqlite3-regexp-cached/sqlite3_regexp.c" />
+        <header-file src="src/deps/common/sqlite3-regexp-cached/sqlite3_regexp.h" />
+        <source-file src="src/deps/common/sqlite3-regexp-cached/sqlite3_regexp.c" />
 
-        <header-file src="node_modules/cordova-sqlite-evplus-ext-free-dependencies/sqlite3-base64/sqlite3_base64.h" />
-        <source-file src="node_modules/cordova-sqlite-evplus-ext-free-dependencies/sqlite3-base64/sqlite3_base64.c" />
+        <header-file src="src/deps/common/sqlite3-base64/sqlite3_base64.h" />
+        <source-file src="src/deps/common/sqlite3-base64/sqlite3_base64.c" />
 
-        <header-file src="node_modules/cordova-sqlite-evplus-ext-free-dependencies/libb64-encode/cencode.h" />
-        <source-file src="node_modules/cordova-sqlite-evplus-ext-free-dependencies/libb64-encode/cencode.c" />
+        <header-file src="src/deps/common/libb64-encode/cencode.h" />
+        <source-file src="src/deps/common/libb64-encode/cencode.c" />
 
-        <header-file src="node_modules/cordova-sqlite-evplus-ext-free-dependencies/sqlite3.h" />
-        <source-file src="node_modules/cordova-sqlite-evplus-ext-free-dependencies/sqlite3.c"
+        <header-file src="src/deps/common/sqlite3.h" />
+        <source-file src="src/deps/common/sqlite3.c"
                      compiler-flags="-w -DSQLITE_THREADSAFE=1 -DSQLITE_DEFAULT_SYNCHRONOUS=3 -DSQLITE_LOCKING_STYLE=1 -DHAVE_USLEEP=1 -DSQLITE_DEFAULT_MEMSTATUS=0 -DSQLITE_OMIT_DECLTYPE -DSQLITE_OMIT_DEPRECATED -DSQLITE_OMIT_PROGRESS_CALLBACK -DSQLITE_OMIT_SHARED_CACHE -DSQLITE_TEMP_STORE=2 -DSQLITE_OMIT_LOAD_EXTENSION -DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_RTREE -DSQLITE_ENABLE_JSON1 -DSQLITE_DEFAULT_PAGE_SIZE=4096 -DSQLITE_DEFAULT_CACHE_SIZE=-2000" />
     </platform>
 
@@ -85,17 +84,17 @@
         <source-file src="src/ios/CustomPSPDFThreadSafeMutableDictionary.m"
                 compiler-flags="-w" />
 
-        <header-file src="node_modules/cordova-sqlite-evplus-ext-free-dependencies/sqlite3-regexp-cached/sqlite3_regexp.h" />
-        <source-file src="node_modules/cordova-sqlite-evplus-ext-free-dependencies/sqlite3-regexp-cached/sqlite3_regexp.c" />
+        <header-file src="src/deps/common/sqlite3-regexp-cached/sqlite3_regexp.h" />
+        <source-file src="src/deps/common/sqlite3-regexp-cached/sqlite3_regexp.c" />
 
-        <header-file src="node_modules/cordova-sqlite-evplus-ext-free-dependencies/sqlite3-base64/sqlite3_base64.h" />
-        <source-file src="node_modules/cordova-sqlite-evplus-ext-free-dependencies/sqlite3-base64/sqlite3_base64.c" />
+        <header-file src="src/deps/common/sqlite3-base64/sqlite3_base64.h" />
+        <source-file src="src/deps/common/sqlite3-base64/sqlite3_base64.c" />
 
-        <header-file src="node_modules/cordova-sqlite-evplus-ext-free-dependencies/libb64-encode/cencode.h" />
-        <source-file src="node_modules/cordova-sqlite-evplus-ext-free-dependencies/libb64-encode/cencode.c" />
+        <header-file src="src/deps/common/libb64-encode/cencode.h" />
+        <source-file src="src/deps/common/libb64-encode/cencode.c" />
 
-        <header-file src="node_modules/cordova-sqlite-evplus-ext-free-dependencies/sqlite3.h" />
-        <source-file src="node_modules/cordova-sqlite-evplus-ext-free-dependencies/sqlite3.c"
+        <header-file src="src/deps/common/sqlite3.h" />
+        <source-file src="src/deps/common/sqlite3.c"
                      compiler-flags="-w -DSQLITE_THREADSAFE=1 -DSQLITE_DEFAULT_SYNCHRONOUS=3 -DSQLITE_LOCKING_STYLE=1 -DHAVE_USLEEP=1 -DSQLITE_DEFAULT_MEMSTATUS=0 -DSQLITE_OMIT_DECLTYPE -DSQLITE_OMIT_DEPRECATED -DSQLITE_OMIT_PROGRESS_CALLBACK -DSQLITE_OMIT_SHARED_CACHE -DSQLITE_TEMP_STORE=2 -DSQLITE_OMIT_LOAD_EXTENSION -DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_RTREE -DSQLITE_ENABLE_JSON1 -DSQLITE_DEFAULT_PAGE_SIZE=4096 -DSQLITE_DEFAULT_CACHE_SIZE=-2000" />
     </platform>
 
