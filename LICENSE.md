@@ -1,6 +1,8 @@
 # License
 
-This plugin version is available under GPL v3 (http://www.gnu.org/licenses/gpl.txt) or commercial license. Contact for commercial license: sales@litehelpers.net
+This plugin version is available under GPL v3 (http://www.gnu.org/licenses/gpl.txt) or super-premium commercial license options. Contact for commercial license: sales@storesafe.io
+
+**NOTICE:** Commercial licenses for evplus, evcore, or [litehelpers / Cordova-sqlite-enterprise-free](https://github.com/litehelpers/Cordova-sqlite-enterprise-free) are **not** valid for this plugin version. For an upgrade please contact: <sales@storesafe.io>
 
 This plugin version is based on Cordova-sqlite-storage (https://github.com/litehelpers/Cordova-sqlite-storage), available under MIT license (all platforms) or Apache 2.0 license (Android and Windows).
 

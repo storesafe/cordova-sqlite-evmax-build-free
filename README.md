@@ -1,4 +1,4 @@
-# Cordova/PhoneGap sqlite storage - premium enterprise version with premium stability and performance improvements with limited extra features
+# Cordova/PhoneGap sqlite storage evmax common branch - super-premium enterprise version with premium stability and performance improvements with limited extra features
 
 Native SQLite component with API based on HTML5/[Web SQL (DRAFT) API](http://www.w3.org/TR/webdatabase/) for the following platforms:
 - Android
@@ -12,9 +12,9 @@ Browser platform is currently supported with some limitations as described in [b
 
 This plugin version uses a special, non-standard Android NDK sqlite database access library (C-language implementation), with some premium improvements to the internal JSON interface between the Javascript and native Android implementation, to provide significant performance and memory usage improvements on the Android platform.
 
-This plugin version is available under GPL v3 (<https://www.gnu.org/licenses/gpl-3.0.txt>) or commercial license options and includes components available under the MIT and Apache 2.0 licenses listed in [LICENSE.md](./LICENSE.md). Contact for commercial license: <sales@litehelpers.net>
+This plugin version is available under GPL v3 (<https://www.gnu.org/licenses/gpl-3.0.txt>) or super-premium commercial license options and includes components available under the MIT and Apache 2.0 licenses listed in [LICENSE.md](./LICENSE.md). Contact for commercial license: <sales@storesafe.io>
 
-**NOTICE:** Commercial licenses for [litehelpers / Cordova-sqlite-evcore-extbuild-free](https://github.com/litehelpers/Cordova-sqlite-evcore-extbuild-free) and [litehelpers / Cordova-sqlite-enterprise-free](https://github.com/litehelpers/Cordova-sqlite-enterprise-free) are **not** valid for this plugin version. For an upgrade please contact: <sales@litehelpers.net>
+**NOTICE:** Commercial licenses for evplus, [litehelpers / Cordova-sqlite-evcore-extbuild-free](https://github.com/litehelpers/Cordova-sqlite-evcore-extbuild-free) or [litehelpers / Cordova-sqlite-enterprise-free](https://github.com/litehelpers/Cordova-sqlite-enterprise-free) are **not** valid for this plugin version. For an upgrade please contact: <sales@storesafe.io>
 
 ## WARNINGS
 
@@ -394,7 +394,7 @@ Use of this plugin on the Windows platform is not always straightforward, due to
 Use the following command to install this plugin version using the Cordova CLI:
 
 ```shell
-cordova plugin add https://github.com/litehelpers/cordova-plugin-sqlite-evplus-ext-common-free # --save *recommended* for Cordova CLI pre-7.0
+cordova plugin add https://github.com/brodybits/cordova-sqlite-evmax-build-free#cordova-sqlite-evmax-common-free # --save *recommended* for Cordova CLI pre-7.0
 ```
 
 Add any desired platform(s) if not already present, for example:
@@ -1445,7 +1445,7 @@ Other resource (apparently for Ionic 1): <https://www.packtpub.com/books/content
 ## Easy installation with Cordova CLI tool
 
 ```shell
-cordova plugin add https://github.com/litehelpers/cordova-plugin-sqlite-evplus-ext-common-free # --save *recommended* for Cordova CLI pre-7.0
+cordova plugin add https://github.com/brodybits/cordova-sqlite-evmax-build-free#cordova-sqlite-evmax-common-free # --save *recommended* for Cordova CLI pre-7.0
 ```
 
 **Additional Cordova CLI NOTES:**
