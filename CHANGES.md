@@ -1,6 +1,6 @@
 # Changes
 
-## cordova-sqlite-evmax-build-free 0.0.1
+# cordova-sqlite-evmax-build-free 0.0.1
 
 - use included SQLite3 dependencies in this plugin version
 
