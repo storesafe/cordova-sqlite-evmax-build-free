@@ -1,5 +1,7 @@
 # Changes
 
+## cordova-sqlite-evmax-build-free 0.0.1-dev
+
 ## cordova-sqlite-evmax-common-free 0.0.1-dev
 
 - workaround for million-plus statement transactions on Android

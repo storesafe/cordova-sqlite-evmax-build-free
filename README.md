@@ -1,4 +1,4 @@
-# Cordova/PhoneGap sqlite storage evmax common branch - super-premium enterprise version with super-premium stability and performance improvements with limited extra features
+# Cordova/PhoneGap sqlite storage evmax - super-premium enterprise version with super-premium stability and performance improvements with limited extra features
 
 Native SQLite component with API based on HTML5/[Web SQL (DRAFT) API](http://www.w3.org/TR/webdatabase/) for the following platforms:
 - Android
@@ -394,7 +394,7 @@ Use of this plugin on the Windows platform is not always straightforward, due to
 Use the following command to install this plugin version using the Cordova CLI:
 
 ```shell
-cordova plugin add https://github.com/brodybits/cordova-sqlite-evmax-build-free#cordova-sqlite-evmax-common-free # --save *recommended* for Cordova CLI pre-7.0
+cordova plugin add https://github.com/brodybits/cordova-sqlite-evmax-build-free # --save *recommended* for Cordova CLI pre-7.0
 ```
 
 Add any desired platform(s) if not already present, for example:
@@ -1445,7 +1445,7 @@ Other resource (apparently for Ionic 1): <https://www.packtpub.com/books/content
 ## Easy installation with Cordova CLI tool
 
 ```shell
-cordova plugin add https://github.com/brodybits/cordova-sqlite-evmax-build-free#cordova-sqlite-evmax-common-free # --save *recommended* for Cordova CLI pre-7.0
+cordova plugin add https://github.com/brodybits/cordova-sqlite-evmax-build-free # --save *recommended* for Cordova CLI pre-7.0
 ```
 
 **Additional Cordova CLI NOTES:**
