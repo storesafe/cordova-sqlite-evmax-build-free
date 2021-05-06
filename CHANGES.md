@@ -1,6 +1,6 @@
 # Changes
 
-# cordova-sqlite-evmax-build-free 0.0.2-dev
+# cordova-sqlite-evmax-build-free 0.0.2
 
 - fix evmax build URLs in package.json
 
