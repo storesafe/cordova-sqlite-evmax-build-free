@@ -737,8 +737,6 @@
 
     # version for platforms with no flat JSON interface:
     SQLitePluginTransaction::run_batch1 = (flatBatchExecutesEntries, count, handlerFor) ->
-      batchExecutesLength = flatBatchExecutesEntries.length
-
       flatlist = []
 
       for e in flatBatchExecutesEntries

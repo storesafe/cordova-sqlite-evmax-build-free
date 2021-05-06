@@ -2,6 +2,8 @@
 
 ## cordova-sqlite-evmax-legacy-common-demo-free 0.0.3-dev
 
+- remove an internal variable not needed from the JavaScript
+
 ## cordova-sqlite-evmax-legacy-common-demo-free 0.0.2-dev
 
 - improve workaround for 1 million INSERTs in transaction on Android

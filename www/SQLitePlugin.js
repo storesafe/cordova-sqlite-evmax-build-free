@@ -641,8 +641,7 @@ Contact for commercial license: sales@litehelpers.net
   };
 
   SQLitePluginTransaction.prototype.run_batch1 = function(flatBatchExecutesEntries, count, handlerFor) {
-    var batchExecutesLength, e, fi, fi2, flatlist, i, l, len1, mycb, mycbmap, params, paramsCount, sql, tropts;
-    batchExecutesLength = flatBatchExecutesEntries.length;
+    var e, fi, fi2, flatlist, i, l, len1, mycb, mycbmap, params, paramsCount, sql, tropts;
     flatlist = [];
     for (l = 0, len1 = flatBatchExecutesEntries.length; l < len1; l++) {
       e = flatBatchExecutesEntries[l];
