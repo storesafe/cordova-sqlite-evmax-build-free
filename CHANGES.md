@@ -1,5 +1,7 @@
 # Changes
 
+# cordova-sqlite-evmax-build-free 0.0.4-dev
+
 # cordova-sqlite-evmax-build-free 0.0.3
 
 - SQLite 3.36.0 update from cordova-sqlite-evplus-ext-free-dependencies@0.4.1 - includes BLOBFROMBASE64 for Android only at this point
