@@ -1,10 +1,10 @@
-# Cordova/PhoneGap sqlite storage - premium enterprise version with premium stability and performance improvements with limited extra features
+# Cordova/PhoneGap sqlite storage - premium enterprise version with premium stability and performance improvements with ATTACH
 
 Native SQLite component with API based on HTML5/[Web SQL (DRAFT) API](http://www.w3.org/TR/webdatabase/) for the following platforms:
 - Android
 - iOS
 - macOS ("osx" platform)
-- Windows 10 (UWP) DESKTOP ~~and MOBILE~~ (see below for major limitations)
+- ~~Windows 10 (UWP) DESKTOP~~ ~~and MOBILE~~ ~~(see below for major limitations)~~ - **not supported** in this version branch
 
 <!-- [TBD] HIDE browser usage notes for now (at least):
 Browser platform is currently supported with some limitations as described in [browser platform usage notes](#browser-platform-usage-notes) section below, will be supported with more features such as numbered parameters and SQL batch API in the near future.
@@ -264,6 +264,7 @@ See the [Sample section](#sample) for a sample with a more detailed explanation 
 
 ## Announcements
 
+- ATTACH/DETACH is now supported as documented below.
 - This plugin version branch includes premium improvements to the internal JSON interface between Javascript and native parts on Android, iOS, and macOS which improves the performance and resolves memory issues in case of some very large SQL batches and large SELECT results, with help from [`android-sqlite-evplus-ndk-driver-free`](https://github.com/storesafe/android-sqlite-evplus-ndk-driver-free) on Android, now with solution for [`storesafe/cordova-plugin-sqlite-evplus-ext-common-free#9`](https://github.com/storesafe/cordova-plugin-sqlite-evplus-ext-common-free/issues/9) (issue with target SDK 30 and some Android 11 devices).
 - Custom Android database location (supports external storage directory)
 - This plugin version includes the following extra (non-standard) features: BASE 64 (all platforms Android/iOS/macOS/Windows), REGEXP (Android/iOS/macOS)
@@ -1337,6 +1338,30 @@ function onDeviceReady() {
 This case will also works with Safari (WebKit), assuming you replace `window.sqlitePlugin.openDatabase` with `window.openDatabase`.
 
 <!-- END Sample with transaction-level nesting -->
+
+## Attach to another database
+
+```js
+db.attach({
+  name: 'db-file-name.db',
+  location: 'default',
+  as: 'alias-name'
+}, optionalSuccessCallback, optionalErrorCallback);
+```
+
+or with iOS database location as documented above:
+
+```js
+db.attach({
+  name: 'db-file-name.db',
+  iosDatabaseLocation: 'Library',
+  as: 'alias-name'
+}, optionalSuccessCallback, optionalErrorCallback);
+```
+
+other option:
+
+- `androidDatabaseLocation` - see above
 
 ## Close a database object
 

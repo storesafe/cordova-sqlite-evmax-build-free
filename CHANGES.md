@@ -1,5 +1,9 @@
 # Changes
 
+# cordova-sqlite-evplus-attach-detach-free 0.0.1-dev
+
+- start cordova-sqlite-evplus-attach-detach-free version for Android/iOS/macOS (removing Windows support)
+
 ## cordova-sqlite-evplus-feat-android-db-location 0.0.3-dev
 
 ## cordova-plugin-sqlite-evplus-ext-common-free 0.8.0-rc02

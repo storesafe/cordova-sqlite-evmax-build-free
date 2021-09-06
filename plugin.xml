@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    id="cordova-sqlite-evplus-feat-android-db-location"
-    version="0.0.3-dev">
+    id="cordova-sqlite-evplus-attach-detach-free"
+    version="0.0.1-dev">
 
     <name>Cordova sqlite storage - free evplus enterprise version with premium stability performance improvements including workaround for large SELECT results on Android (with external sqlite3 dependencies)</name>
 
@@ -104,7 +104,7 @@
     </platform>
 
     <!-- windows -->
-    <platform name="windows">
+    <platform name="windows-not-supported">
         <js-module src="src/windows/sqlite-proxy.js" name="SQLiteProxy">
             <runs />
         </js-module>
