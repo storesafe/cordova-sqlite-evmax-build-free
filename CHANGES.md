@@ -2,6 +2,7 @@
 
 # cordova-sqlite-evmax-build-free 0.0.4-dev
 
+- add BLOBFROMBASE64 for iOS, macOS, and Windows from https://github.com/brodybits/libb64-core
 - SQLite 3.37.2 update from cordova-sqlite-evplus-ext-free-dependencies@0.4.2 - with resolution for a very rare & unlikely corruption issue from SQLite 3.35.0 ref: https://sqlite.org/forum/forumpost/ac381d64d8
 
 # cordova-sqlite-evmax-build-free 0.0.3
