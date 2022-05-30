@@ -10,21 +10,20 @@ var pluginScenarioList = [
   'Plugin-implementation-2'
 ];
 
-//var pluginScenarioCount = isAndroid ? 2 : 1;
-var pluginScenarioCount = 1;
+var pluginScenarioCount = isAndroid ? 2 : 1;
 
 var mytests = function() {
 
   for (var i=0; i<pluginScenarioCount; ++i) {
 
-    describe(pluginScenarioList[i] + ': attach Android db location test(s)', function() {
+    describe(pluginScenarioList[i] + ': ATTACH Android db location test(s)', function() {
       var scenarioName = pluginScenarioList[i];
       var suiteName = scenarioName + ': ';
-      // FUTURE TBD
-      //var isImpl2 = (i === 1);
+      var isAndroidSystemDatabaseProvider = (i === 1);
 
-        it(suiteName + 'Create db file in Documents, check size, copy to default location, check copy, and delete original', function(done) {
+        it(suiteName + 'Create db file in Documents, add data, ATTACH from another db, and check attached db data', function(done) {
           if (!isAndroid) pending('SKIP for iOS/macOS/Windows ...');
+          if (isAndroidSystemDatabaseProvider) pending("[TODO PENDING] SKIP for androidDatabaseProvider: 'system' for now'");
 
           var dbname = 'attach-db-in-documents-test.db';
 
