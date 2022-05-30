@@ -104,7 +104,7 @@
     </platform>
 
     <!-- windows -->
-    <platform name="windows-not-supported">
+    <platform name="windows">
         <js-module src="src/windows/sqlite-proxy.js" name="SQLiteProxy">
             <runs />
         </js-module>

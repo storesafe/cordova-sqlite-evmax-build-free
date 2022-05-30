@@ -10,37 +10,46 @@ var pluginScenarioList = [
   'Plugin-implementation-2'
 ];
 
-// FUTURE TBD
-// var pluginScenarioCount = isAndroid ? 2 : 1;
 var pluginScenarioCount = 1;
 
 var mytests = function() {
 
   for (var i=0; i<pluginScenarioCount; ++i) {
 
-    describe(pluginScenarioList[i] + ': attach / detach db test(s)', function() {
+    describe(pluginScenarioList[i] + ': Windows subdirectory ATTACH / DETACH db test(s)', function() {
       var scenarioName = pluginScenarioList[i];
       var suiteName = scenarioName + ': ';
-      // FUTURE TBD
-      // var isImpl2 = (i === 1);
 
-      it(suiteName + 'preliminary cleanup 1',
+      it(suiteName + 'preliminary preparation: create multi-level subdirectories',
         function(done) {
           expect(true).toBe(true);
-          window.sqlitePlugin.deleteDatabase({ name: 'attach-test-external.db', iosDatabaseLocation: 'Library' }, done, done);
+          Windows.Storage.ApplicationData.current.localFolder.createFolderAsync('user-databases').then(function(subdir1) {
+            subdir1.createFolderAsync('main').then(function(_ignored) {
+              subdir1.createFolderAsync('ext').then(done);
+            });
+          });
         }, MYTIMEOUT);
 
-      it(suiteName + 'preliminary cleanup 2',
+      // XXX TODO does not seem to work here:
+      xit(suiteName + 'preliminary cleanup 1',
         function(done) {
           expect(true).toBe(true);
-          window.sqlitePlugin.deleteDatabase({ name: 'attach-test.db', iosDatabaseLocation: 'Library' }, done, done);
+          window.sqlitePlugin.deleteDatabase({ name: 'user-databases/ext/attach-external-test.db', location: 'default' }, done, done);
         }, MYTIMEOUT);
 
-      it(suiteName + 'ATTACH/PRAGMA database_list/DETACH test',
+      // XXX TODO does not seem to work here:
+      xit(suiteName + 'preliminary cleanup 2',
+        function(done) {
+          expect(true).toBe(true);
+          window.sqlitePlugin.deleteDatabase({ name: 'user-databases/main/attach-test.db', location: 'default' }, done, done);
+        }, MYTIMEOUT);
+
+      // test with multi-level subdirectories to help match & support a customer scenario
+      it(suiteName + 'ATTACH/PRAGMA database_list/DETACH test in multi-level subdirectories',
         function(done) {
           window.sqlitePlugin.openDatabase({
-            name: 'attach-test-external.db',
-            iosDatabaseLocation: 'Library'
+            name: 'user-databases/ext/attach-external-test.db',
+            location: 'default'
           }, function(db1) {
           db1.transaction(function(tx) {
             tx.executeSql('DROP TABLE IF EXISTS tt');
@@ -54,10 +63,10 @@ var mytests = function() {
             db1.close(function() {
 
               window.sqlitePlugin.openDatabase({
-                name: 'attach-test.db',
+                name: 'user-databases/main/attach-test.db',
                 location: 'default',
               }, function(db2) {
-                db2.attach({ name: 'attach-test-external.db', iosDatabaseLocation: 'Library', as: 'ext', }, function() {
+                db2.attach({ name: 'user-databases/ext/attach-external-test.db', location: 'default', as: 'ext', }, function() {
                   db2.executeSql('SELECT * from ext.tt', [], function(res) {
                     expect(res).toBeDefined();
                     expect(res.rows).toBeDefined();
@@ -70,7 +79,7 @@ var mytests = function() {
                       expect(res.rows.item(0).name).toBe('main');
                       expect(res.rows.item(1).name).toBe('ext');
                       expect(res.rows.item(1).file).toBeDefined();
-                      expect(res.rows.item(1).file.indexOf('attach-test-external.db') >= 0).toBe(true);
+                      expect(res.rows.item(1).file.indexOf('attach-external-test.db') >= 0).toBe(true);
 
                       db2.detach('ext', function() {
                         db2.executeSql('PRAGMA database_list', [], function(res) {
