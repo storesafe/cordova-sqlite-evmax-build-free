@@ -2,13 +2,39 @@
 
 ## cordova-sqlite-evmax-common-free 0.0.2-dev
 
+## cordova-plugin-sqlite-evplus-ext-common-free 0.8.0-rc03
+
+- SQLite 3.37.2 update from cordova-sqlite-evplus-ext-free-dependencies@0.4.2
+
+## cordova-plugin-sqlite-evplus-ext-common-free 0.8.0-rc02
+
+- SQLite 3.36.0 update from cordova-sqlite-evplus-ext-free-dependencies@0.4.1
+
+NOTE: "ALTER TABLE DROP COLUMN corrupts data" issue seems to have been resolved in SQLite 3.35.5 as well:
+  - https://sqlite.org/forum/forumpost/8f5073c5a9d6d9b3?t=h
+  - https://sqlite.org/releaselog/3_35_5.html
+
+## cordova-plugin-sqlite-evplus-ext-common-free 0.8.0-rc01
+
+- use cordova-sqlite-evplus-ext-free-dependencies 0.4.0 with BLOBFROMBASE64 feature
+
+## cordova-plugin-sqlite-evplus-ext-common-free 0.7.0
+
+- fix condition used to close database on Android
+
+### cordova-sqlite-evcore-common-free 0.6.0-dev
+
+- update Windows minimum & target platform versions - BREAKING CHANGE
+
 ## cordova-sqlite-evmax-common-free 0.0.1-dev
 
 - workaround for million-plus statement transactions on Android
 
 ## cordova-plugin-sqlite-evplus-ext-common-free 0.6.0-pre01
 
-- update evplus NDK library - solution for Android 11 with target SDK 30, from cordova-sqlite-evplus-ext-free-dependencies@0.3.0
+- updates from cordova-sqlite-evplus-ext-free-dependencies@0.3.0
+  - update evplus NDK library - solution for Android 11 with target SDK 30
+  - SQLite 3.35.5 update for all platforms
 
 ## cordova-plugin-sqlite-evplus-ext-common-free 0.5.0-pre01
 
