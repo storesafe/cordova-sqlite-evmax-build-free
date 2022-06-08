@@ -2,6 +2,8 @@
 
 ## cordova-sqlite-evmax-common-free 0.0.4-dev
 
+- fix evmax GitHub URLs in package.json
+
 ## cordova-plugin-sqlite-evplus-ext-common-free 0.9.0-rc01
 
 - SQLite 3.38.5 update from cordova-sqlite-evplus-ext-free-dependencies@0.5.0
