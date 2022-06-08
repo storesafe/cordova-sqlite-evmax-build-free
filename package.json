@@ -29,9 +29,6 @@
     "url": "https://github.com/brodybits/cordova-sqlite-evmax-build-free/issues"
   },
   "homepage": "https://github.com/brodybits/cordova-sqlite-evmax-build-free",
-  "dependencies": {
-    "cordova-sqlite-evplus-ext-free-dependencies": "0.3.0"
-  },
   "scripts": {
     "clean-spec": "rm -rf spec/[mnp]* && git cl spec/config.xml spec/package.json && git status --ignored",
     "prepare-js": "coffee -p SQLitePlugin.coffee.md > www/SQLitePlugin.js",
