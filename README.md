@@ -200,7 +200,7 @@ See the [Sample section](#sample) for a sample with a more detailed explanation 
   - It may be needed to use `cordova prepare` in case of cordova-ios pre-4.3.0 (Cordova CLI `6.4.0`).
   - Cordova versions older than `6.0.0` are missing the `cordova-ios@4.0.0` security fixes.
 - This plugin version includes the following extra (non-standard) features:
-  - BASE64 integrated from [brodybits / sqlite3-base64](https://github.com/brodybits/sqlite3-base64), using [brodybits / libb64-encode](https://github.com/brodybits/libb64-encode) (based on <http://libb64.sourceforge.net/> by Chris Venter, public domain)
+  - _BASE64 and BLOBFROMBASE64 integrated from [brodybits / sqlite3-base64](https://github.com/brodybits/sqlite3-base64), using [brodybits / libb64-core](https://github.com/brodybits/libb64-core) (based on <http://libb64.sourceforge.net/> by Chris Venter, public domain)_
   - REGEXP for Android (default Android-sqlite-connector database implementation), iOS, and macOS using [brodybits / sqlite3-regexp-cached](https://github.com/brodybits/sqlite3-regexp-cached) (based on <http://git.altlinux.org/people/at/packages/?p=sqlite3-pcre.git> by Alexey Tourbin, public domain)
 - SQLite __`3.38.5`__ included when building (all platforms), with the following compile-time definitions:
   - `SQLITE_THREADSAFE=1`

@@ -2,6 +2,9 @@
 
 # cordova-sqlite-evmax-build-free 0.0.5-dev
 
+- BLOBFROMBASE64 for other platforms from:
+  - https://github.com/brodybits/libb64-core
+  - https://github.com/brodybits/sqlite3-base64
 - SQLite 3.38.5 update from cordova-sqlite-evplus-ext-free-dependencies@0.5.0
 - refactor(evmax build): remove dependencies not needed in this plugin version branch
 
