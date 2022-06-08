@@ -1,6 +1,6 @@
 # Changes
 
-# cordova-sqlite-evmax-build-free 0.0.5-dev
+# cordova-sqlite-evmax-build-free 0.0.5
 
 - BLOBFROMBASE64 for other platforms from:
   - https://github.com/brodybits/libb64-core
