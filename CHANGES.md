@@ -1,5 +1,9 @@
 # Changes
 
+## cordova-sqlite-evmax-feat-eu-support 0.0.1-dev
+
+- XXX XXX - XXX TODO UPDATE README ETC
+
 ## cordova-sqlite-evmax-common-free 0.0.4-dev
 
 - fix evmax GitHub URLs in package.json

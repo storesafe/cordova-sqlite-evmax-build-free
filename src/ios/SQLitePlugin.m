@@ -14,6 +14,8 @@
 
 #import "sqlite3_base64.h"
 
+#import "sqlite3_eu.h"
+
 // Defines Macro to only log lines when in DEBUG mode
 #ifdef DEBUG
 #   define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
@@ -186,10 +188,15 @@
             } else {
                 // TBD IGNORE result:
                 const char * err1;
+
+                // XXX DO THIS FIRST:
                 sqlite3_db_config(db, SQLITE_DBCONFIG_DEFENSIVE, 1, NULL);
+
                 sqlite3_regexp_init(db, &err1);
 
                 sqlite3_base64_init(db);
+
+                sqlite3_eu_init(db, "UPPER", "LOWER");
 
                 // for SQLCipher version:
                 // NSString *dbkey = [options objectForKey:@"key"];
@@ -325,6 +332,25 @@
     int ai = 2;
 
     @synchronized(self) {
+#if 0 // XXX GONE:
+        for (NSMutableDictionary *dict in executes) {
+            CDVPluginResult *result = [self executeSqlWithDict:dict andArgs:dbargs];
+            if ([result.status intValue] == CDVCommandStatus_ERROR) {
+                /* add error with result.message: */
+                NSMutableDictionary *r = [NSMutableDictionary dictionaryWithCapacity:0];
+                [r setObject:@"error" forKey:@"type"];
+                [r setObject:result.message forKey:@"error"];
+                [r setObject:result.message forKey:@"result"];
+                [results addObject: r];
+            } else {
+                /* add result with result.message: */
+                NSMutableDictionary *r = [NSMutableDictionary dictionaryWithCapacity:0];
+                [r setObject:@"success" forKey:@"type"];
+                [r setObject:result.message forKey:@"result"];
+                [results addObject: r];
+            }
+        }
+#endif
         for (int i=0; i<sc; ++i) {
             NSString *sql = [flatlist objectAtIndex:(ai++)];
             NSNumber *pc = [flatlist objectAtIndex:(ai++)];
@@ -342,6 +368,12 @@
 
 -(void)fjsql: (NSString*)sql withParams: (NSMutableArray*)params first: (int)first count:(int)params_count onDatabaseName: (NSString*)dbFileName results: (NSMutableArray*)results
 {
+#if 0 // XXX TBD ???:
+    if (dbFileName == NULL) {
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"INTERNAL PLUGIN ERROR: You must specify database path"];
+    }
+#endif
+
     NSValue *dbPointer = [openDBs objectForKey:dbFileName];
 
     sqlite3 *db = [dbPointer pointerValue];

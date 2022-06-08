@@ -6,6 +6,8 @@
 
 #include "sqlite3_base64.h"
 
+#include "sqlite3_eu.h"
+
 namespace SQLite3
 {
   Database::Database(Platform::String^ dbPath)
@@ -23,6 +25,7 @@ namespace SQLite3
 
     sqlite3_db_config(sqlite, SQLITE_DBCONFIG_DEFENSIVE, 1, NULL);
     sqlite3_base64_init(sqlite);
+    sqlite3_eu_init(db, "UPPER", "LOWER");
   }
 
   Database::~Database()
