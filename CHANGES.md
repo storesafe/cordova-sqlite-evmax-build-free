@@ -16,6 +16,8 @@
 
 - SQLite 3.37.2 update from cordova-sqlite-evplus-ext-free-dependencies@0.4.2
 
+## cordova-sqlite-evplus-feat-android-db-location 0.0.3-dev
+
 ## cordova-plugin-sqlite-evplus-ext-common-free 0.8.0-rc02
 
 - SQLite 3.36.0 update from cordova-sqlite-evplus-ext-free-dependencies@0.4.1
@@ -55,6 +57,12 @@ NOTE: "ALTER TABLE DROP COLUMN corrupts data" issue seems to have been resolved 
   - update affected test cases
   - update documentation
 
+## cordova-sqlite-evplus-feat-android-db-location 0.0.2-dev
+
+## cordova-sqlite-evcore-feat-android-db-location 0.8.0
+
+- refactor: update androidDatabaseLocation error messages
+
 ### cordova-sqlite-evcore-commoncore-free 0.3.0
 
 ### cordova-sqlite-ext-common 4.0.0
@@ -70,6 +78,12 @@ NOTE: "ALTER TABLE DROP COLUMN corrupts data" issue seems to have been resolved 
 - enable RENAME table with view test - from December 2019 SQLite crash report, fixed in 2020 ref:
   - http://sqlite.1065341.n5.nabble.com/Crash-Bug-Report-tc109903.html
   - https://github.com/xpbrew/cordova-sqlite-storage/issues/904
+
+## cordova-sqlite-evplus-feat-android-db-location 0.0.1-dev
+
+### cordova-sqlite-evcore-feature-android-db-location 0.7.2-dev1
+
+- Custom Android database file location
 
 ## cordova-plugin-sqlite-evplus-ext-common-free 0.4.1-rc01
 
