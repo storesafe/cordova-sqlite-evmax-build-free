@@ -41,7 +41,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\node_modules/cordova-sqlite-evplus-ext-free-dependencies\libb64-core\cdecode.c">
       <CompileAsWinRT>false</CompileAsWinRT>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\node_modules/cordova-sqlite-evplus-ext-free-dependencies\sqlite3-base64\sqlite3_eu.c">
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\node_modules/cordova-sqlite-evplus-ext-free-dependencies\sqlite3-eu\sqlite3_eu.c">
       <CompileAsWinRT>false</CompileAsWinRT>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">
