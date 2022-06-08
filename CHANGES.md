@@ -8,6 +8,18 @@
 - SQLite 3.38.5 update from cordova-sqlite-evplus-ext-free-dependencies@0.5.0
 - refactor(evmax build): remove dependencies not needed in this plugin version branch
 
+## cordova-sqlite-evmax-common-free 0.0.4-dev
+
+- fix evmax GitHub URLs in package.json
+
+## cordova-plugin-sqlite-evplus-ext-common-free 0.7.0
+
+- fix condition used to close database on Android
+
+### cordova-sqlite-evcore-common-free 0.6.0-dev
+
+- update Windows minimum & target platform versions - BREAKING CHANGE
+
 # cordova-sqlite-evmax-build-free 0.0.4
 
 - SQLite 3.37.2 update from cordova-sqlite-evplus-ext-free-dependencies@0.4.2 - with resolution for a very rare & unlikely corruption issue from SQLite 3.35.0 ref: https://sqlite.org/forum/forumpost/ac381d64d8
@@ -30,7 +42,9 @@
 
 ## cordova-plugin-sqlite-evplus-ext-common-free 0.6.0-pre01
 
-- update evplus NDK library - solution for Android 11 with target SDK 30, from cordova-sqlite-evplus-ext-free-dependencies@0.3.0
+- updates from cordova-sqlite-evplus-ext-free-dependencies@0.3.0
+  - update evplus NDK library - solution for Android 11 with target SDK 30
+  - SQLite 3.35.5 update for all platforms
 
 ## cordova-plugin-sqlite-evplus-ext-common-free 0.5.0-pre01
 

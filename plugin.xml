@@ -34,7 +34,7 @@
         <source-file src="src/android/io/sqlc/SQLiteConnectorDatabase.java" target-dir="src/io/sqlc"/>
          -->
 
-        <!-- ... -->
+        <!-- JAR with NDK libs & Java JNI class -->
         <lib-file src="src/deps/android/sqlc-evplus-ndk-driver.jar" />
     </platform>
 
