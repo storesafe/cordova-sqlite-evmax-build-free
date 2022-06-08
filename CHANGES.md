@@ -2,6 +2,7 @@
 
 # cordova-sqlite-evmax-build-free 0.0.5-dev
 
+- SQLite 3.38.5 update from cordova-sqlite-evplus-ext-free-dependencies@0.5.0
 - refactor(evmax build): remove dependencies not needed in this plugin version branch
 
 # cordova-sqlite-evmax-build-free 0.0.4
