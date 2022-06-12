@@ -64,7 +64,8 @@ var mytests = function() {
         if (isWebSql) {
           return window.openDatabase(name, '1.0', 'Test', DEFAULT_SIZE);
         } else {
-          // explicit database location:
+          // EXPLICIT database location REQUIRED AGAIN in this plugin version:
+          // return window.sqlitePlugin.openDatabase(name, '1.0', 'Demo', -1);
           return window.sqlitePlugin.openDatabase({name: name, location: 'default'});
         }
       }
@@ -531,13 +532,13 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        // ENCODING ISSUE NOW FIXED with emojis and other 4-byte UTF-8 characters
+        // XXX ENCODING ISSUE NOW RESOLVED with emojis and other 4-byte UTF-8 characters
         // on default Android evcore NDK implementation
         // ref:
         // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
         // - litehelpers/Cordova-sqlite-storage#564
         // - litehelpers/Cordova-sqlite-evcore-extbuild-free#7
-        it(suiteName + 'INSERT TEXT string with emoji [\\u1F603 SMILING FACE (MOUTH OPEN)], SELECT the data, check, and check HEX [ENCODING ISSUE NOW FIXED on Android post-5.x [evplus]; non-standard encoding reproduced on Android pre-6.0; TRUNCATION BUG REPRODUCED on Windows; default sqlite HEX encoding: UTF-6le on Windows & Android 4.1-4.3 (WebKit) Web SQL, UTF-8 otherwise]' , function(done) {
+        it(suiteName + 'INSERT TEXT string with emoji [\\u1F603 SMILING FACE (MOUTH OPEN)], SELECT the data, check, and check HEX [ENCODING ISSUE RESOLVED on Android (...); non-standard encoding reproduced on Android pre-6.0; TRUNCATION BUG REPRODUCED on Windows; default sqlite HEX encoding: UTF-6le on Windows & Android 4.1-4.3 (WebKit) Web SQL, UTF-8 otherwise]' , function(done) {
           var db = openDatabase('INSERT-emoji-and-check.db', '1.0', 'Demo', DEFAULT_SIZE);
 
           db.transaction(function(tx) {
@@ -554,7 +555,6 @@ var mytests = function() {
                   expect(rs2.rows.length).toBe(1);
 
                   var row = rs2.rows.item(0);
-                  // [evplus] NOW FIXED (...)
                   // Full object check:
                   expect(row).toEqual({data: '@\uD83D\uDE03!'});
                   // Check individual members:
@@ -588,10 +588,11 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
+        // XXX ENCODING ISSUE NOW RESOLVED with emojis and other 4-byte UTF-8 characters [...]
         // ref:
         // - litehelpers/Cordova-sqlite-evcore-extbuild-free#43
         // - litehelpers/Cordova-sqlite-storage#564
-        it(suiteName + 'INSERT TEXT string with 25 emojis, SELECT the data, and check' , function(done) {
+        it(suiteName + 'INSERT TEXT string with 25 emojis, SELECT the data, and check - ENCODING ISSUE RESOLVED on Android (default evcore NDK implementation)' , function(done) {
           // ref:
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
@@ -1155,7 +1156,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + "INSERT inline BLOB value (X'FFD1FFD2') and check stored data [XXX KNOWN PLUGIN ISSUES: SELECT BLOB VALUE ERROR on Android (androidDatabaseProvider: 'system') & Windows; SKIP SELECT BLOB VALUE TEST on default default Android NDK [evplus] implementation & iOS/macOS DUE TO (POSSIBLE) CRASH; actual result value is IGNORED on (WebKit) Web SQL & plugin on other platforms]", function(done) {
+        it(suiteName + "INSERT inline BLOB value (X'FFD1FFD2') and check stored data [PLUGIN ISSUES REPRODUCED: SELECT BLOB returns data with incorrect length on Android (default evcore NDK implementation); SELECT BLOB VALUE ERROR on Android (androidDatabaseProvider: 'system') & Windows; SKIP SELECT BLOB VALUE TEST on default Android evcore NDK implementation TO AVOID KNOWN CRASH; MISSING result data column on iOS/macOS; actual result value is IGNORED on (WebKit) Web SQL & plugin on other platforms]", function(done) {
           var db = openDatabase('INSERT-inline-BLOB-value-FFD1FFD2-and-check-stored-data.db', '1.0', 'Demo', DEFAULT_SIZE);
 
           db.transaction(function(tx) {
@@ -1176,11 +1177,9 @@ var mytests = function() {
                   expect(item).toBeDefined();
                   expect(item.hexValue).toBe('FFD1FFD2');
 
-                  // XXX STOP HERE on evplus for plugin on iOS/macOS plugin due to KNOWN CRASH:
-                  if (isAppleMobileOS || isMac) return done();
-
-                  // XXX STOP HERE [evplus] for default Android NDK [evplus] implementation DUE TO CRASH:
-                  if (!isWebSql && isAndroid && !isImpl2) return done();
+                  // XXX [TBD] STOP HERE DUE TO KNOWN CRASH on this evplus plugin version on iOS/macOS & Android
+                  // (continue with this test on (WebKit) Web SQL (Android/iOS/browser) & plugin on Windows)
+                  if (isAppleMobileOS || isMac || (!isWebSql && isAndroid && !isImpl2)) return done();
 
                   tx.executeSql('SELECT * FROM test_table', [], function(ignored, rs3) {
                     if (!isWebSql && isWindows) expect('PLUGIN BEHAVIOR CHANGED: UNEXPECTED SUCCESS on Windows').toBe('--');
@@ -1195,12 +1194,15 @@ var mytests = function() {
                     var mydata = item.data;
 
                     if (!isWebSql && (isAppleMobileOS || isMac)) {
-                      // NOT EXPECTED TO GET HERE on iOS/macOS plugin [evplus]:
-                      done.fail();
+                      // MISSING RESULT COLUMN DATA REPRODUCED on iOS/macOS plugin:
+                      expect(mydata).not.toBeDefined();
                     } else {
                       // EXPECTED RESULT on (WebKit) Web SQL & FUTURE TBD: plugin on browser platform
                       expect(mydata).toBeDefined();
                       expect(mydata.length).toBeDefined();
+                      if (!isWebSql && isAndroid && !isImpl2)
+                        expect(mydata.length).toBe(1); // INCORRECT DATA LENGTH on Android (default evcore NDK)
+                      else
                       if (!(isWebSql && /Android 4.[1-3]/.test(navigator.userAgent)))
                         expect(mydata.length).toBe(4);
                     }
