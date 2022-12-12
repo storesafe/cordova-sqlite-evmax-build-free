@@ -2,6 +2,7 @@
 
 # cordova-sqlite-evmax-build-free 0.0.6-voltbuild-dev
 
+- Windows SQLite3 lib build as needed for Volt build - x86 only (64-bit BROKEN at this point)
 - SQLite 3.40.0 update for iOS, macOS (OSX), & Windows
 
 # cordova-sqlite-evmax-build-free 0.0.5

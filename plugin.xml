@@ -114,7 +114,16 @@
         </js-module>
 
         <!-- Thanks to AllJoyn-Cordova / cordova-plugin-alljoyn for guidance: -->
+        <!-- uncomment next line to rebuild WinMD & DLL artifacts - Release build is required:
         <framework src="src/windows/SQLite3-WinRT-sync/SQLite3/SQLite3.UWP.vcxproj" custom="true" type="projectReference" versions="10.*" />
+        -->
+        <!-- remove these when rebuilding WinMD & DLL artifacts -->
+        <!-- sources:
+             - https://www.dynamsoft.com/codepool/cordova-plugin-barcode-winrt.html
+             - https://github.com/yushulx/cordova-windows-barcode
+             - -->
+        <framework src="src/windows/libs/x86/BarcodeComponent.winmd" target-dir="x86" arch="x86" custom="true"/>
+        <framework src="src/windows/libs/x86/SQLite3.winmd" target-dir="x86" arch="x86" custom="true" implementation="src/windows/libs/x86/SQLite3.UWP.dll"/>
     </platform>
 
 </plugin>
