@@ -1,6 +1,6 @@
 # Changes
 
-# cordova-sqlite-evmax-build-free 0.0.6-voltbuild-test01
+# cordova-sqlite-evmax-build-free 0.0.6
 
 - remove useless Windows project references
 - Windows SQLite3 lib build as needed for Volt build - x86 & x64 now working
