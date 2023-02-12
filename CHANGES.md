@@ -1,5 +1,7 @@
 # Changes
 
+# cordova-sqlite-evmax-build-free 0.0.7-dev
+
 # cordova-sqlite-evmax-build-free 0.0.6
 
 - remove useless Windows project references
