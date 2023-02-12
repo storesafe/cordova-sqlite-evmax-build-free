@@ -456,7 +456,8 @@
           t = typeof v
           flatlist.push(
             if v == null || v == undefined then null
-            else if t == 'number' || t == 'string' then v
+            else if t == 'number' then v
+            else if t == 'string' then v.replace('!', '!!').replace('/', '!|')
             else v.toString()
           )
 

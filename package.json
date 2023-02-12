@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/storesafe/cordova-sqlite-evmax-build-free",
   "dependencies": {
-    "cordova-sqlite-evplus-ext-free-dependencies": "0.5.0"
+    "cordova-sqlite-evmax-free-dependencies": "git+https://github.com/brodybits/cordova-sqlite-evmax-free-dependencies-dev"
   },
   "scripts": {
     "clean-spec": "rm -rf spec/[mnp]* && git cl spec/config.xml spec/package.json && git status --ignored",

@@ -390,7 +390,7 @@ Contact for commercial license: sales@litehelpers.net
       for (l = 0, len1 = values.length; l < len1; l++) {
         v = values[l];
         t = typeof v;
-        flatlist.push(v === null || v === void 0 ? null : t === 'number' || t === 'string' ? v : v.toString());
+        flatlist.push(v === null || v === void 0 ? null : t === 'number' ? v : t === 'string' ? v.replace('!', '!!').replace('/', '!|') : v.toString());
       }
     } else {
       flatlist.push(0);

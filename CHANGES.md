@@ -2,6 +2,8 @@
 
 ## cordova-sqlite-evmax-common-free 0.0.5-dev
 
+- use android-sqlite-evmax-ndk-driver-free with workaround for slash characters with Capacitor (with SQLite 3.40.0)
+
 ## cordova-sqlite-evmax-common-free 0.0.4-dev
 
 - fix evmax GitHub URLs in package.json
