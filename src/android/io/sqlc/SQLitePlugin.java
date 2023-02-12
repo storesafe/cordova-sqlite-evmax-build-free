@@ -391,7 +391,7 @@ public class SQLitePlugin extends CordovaPlugin {
         @Override
         void open(File dbFile) throws Exception {
             if (!isNativeLibLoaded) {
-                System.loadLibrary("sqlc-evplus-ndk-driver");
+                System.loadLibrary("sqlc-evmax-ndk-driver");
                 isNativeLibLoaded = true;
             }
 

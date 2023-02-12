@@ -1876,6 +1876,24 @@ var mytests = function() {
 
       });
 
+        it(suiteName + "SELECT UPPER(?) with ['/ab!cd'] parameter argument", function(done) {
+          var db = openDatabase('SELECT-UPPER-with-slash-ab-bang-cd-TEXT-string-argument.db');
+          expect(db).toBeDefined();
+          db.transaction(function(tx) {
+            tx.executeSql('SELECT UPPER(?) as myresult', ['/ab!cd'], function(ignored, rs) {
+              expect(rs).toBeDefined();
+              expect(rs.rows).toBeDefined();
+              expect(rs.rows.length).toBe(1);
+              expect(rs.rows.item(0).myresult).toBe('/AB!CD');
+              done();
+            });
+          }, function(error) {
+            expect(false).toBe(true);
+            expect(error.message).toBe('--');
+            done();
+          });
+        }, MYTIMEOUT);
+
     });
 
   }

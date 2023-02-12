@@ -35,7 +35,7 @@
          -->
 
         <!-- JAR with NDK libs & Java JNI class -->
-        <lib-file src="src/deps/android/sqlc-evplus-ndk-driver.jar" />
+        <lib-file src="src/deps/android/sqlc-evmax-ndk-driver.jar"/>
     </platform>
 
     <!-- iOS -->
