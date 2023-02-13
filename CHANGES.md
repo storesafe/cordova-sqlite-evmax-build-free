@@ -2,6 +2,10 @@
 
 # cordova-sqlite-evmax-build-free 0.0.8-dev
 
+## cordova-sqlite-evmax-common-free 0.0.6-dev
+
+- fix workaround for slash characters with Capacitor
+
 # cordova-sqlite-evmax-build-free 0.0.7
 
 ## cordova-sqlite-evmax-common-free 0.0.5-dev

@@ -1880,11 +1880,11 @@ var mytests = function() {
           var db = openDatabase('SELECT-UPPER-with-slash-ab-bang-cd-TEXT-string-argument.db');
           expect(db).toBeDefined();
           db.transaction(function(tx) {
-            tx.executeSql('SELECT UPPER(?) as myresult', ['/ab!cd'], function(ignored, rs) {
+            tx.executeSql('SELECT UPPER(?) as myresult', ['/ab!cd!!ef!123/456'], function(ignored, rs) {
               expect(rs).toBeDefined();
               expect(rs.rows).toBeDefined();
               expect(rs.rows.length).toBe(1);
-              expect(rs.rows.item(0).myresult).toBe('/AB!CD');
+              expect(rs.rows.item(0).myresult).toBe('/AB!CD!!EF!123/456');
               done();
             });
           }, function(error) {
