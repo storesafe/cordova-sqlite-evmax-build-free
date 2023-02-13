@@ -23,6 +23,9 @@
 
     EE_SIZE_LIMIT = 16 * 1024 * 1024
 
+    REPLACE_BANG_REGEXP = /!/g
+    REPLACE_SLASH_REGEXP = /\//g
+
 ## global(s):
 
     # per-db map of locking and queueing
@@ -456,8 +459,7 @@
           t = typeof v
           flatlist.push(
             if v == null || v == undefined then null
-            else if t == 'number' then v
-            else if t == 'string' then v.replace('!', '!!').replace('/', '!|')
+            else if t == 'number' || t == 'string' then v
             else v.toString()
           )
 
@@ -707,7 +709,11 @@
 
         flatlist = [mydbid, flen]
 
-        flatlist = flatlist.concat flatBatchExecutesEntries[index]
+        flatlist = flatlist.concat flatBatchExecutesEntries[index].map (v) ->
+          if typeof v == 'string'
+            v.replace(REPLACE_BANG_REGEXP, '!1').replace(REPLACE_SLASH_REGEXP, '!2')
+          else
+            v
 
         flatlist.push 'extra'
 

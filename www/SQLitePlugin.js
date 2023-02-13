@@ -4,7 +4,7 @@ Contact for commercial license: sales@litehelpers.net
  */
 
 (function() {
-  var DB_STATE_INIT, DB_STATE_OPEN, EE_SIZE_LIMIT, READ_ONLY_REGEX, SQLiteFactory, SQLitePlugin, SQLitePluginTransaction, SelfTest, argsArray, dblocations, iosLocationMap, newSQLError, nextTick, root, txLocks;
+  var DB_STATE_INIT, DB_STATE_OPEN, EE_SIZE_LIMIT, READ_ONLY_REGEX, REPLACE_BANG_REGEXP, REPLACE_SLASH_REGEXP, SQLiteFactory, SQLitePlugin, SQLitePluginTransaction, SelfTest, argsArray, dblocations, iosLocationMap, newSQLError, nextTick, root, txLocks;
 
   root = this;
 
@@ -15,6 +15,10 @@ Contact for commercial license: sales@litehelpers.net
   DB_STATE_OPEN = "OPEN";
 
   EE_SIZE_LIMIT = 16 * 1024 * 1024;
+
+  REPLACE_BANG_REGEXP = /!/g;
+
+  REPLACE_SLASH_REGEXP = /\//g;
 
   txLocks = {};
 
@@ -390,7 +394,7 @@ Contact for commercial license: sales@litehelpers.net
       for (l = 0, len1 = values.length; l < len1; l++) {
         v = values[l];
         t = typeof v;
-        flatlist.push(v === null || v === void 0 ? null : t === 'number' ? v : t === 'string' ? v.replace('!', '!!').replace('/', '!|') : v.toString());
+        flatlist.push(v === null || v === void 0 ? null : t === 'number' || t === 'string' ? v : v.toString());
       }
     } else {
       flatlist.push(0);
@@ -615,7 +619,13 @@ Contact for commercial license: sales@litehelpers.net
       var cb1, ch1, flatlist, flen;
       flen = flatBatchExecutesEntries[index].flen;
       flatlist = [mydbid, flen];
-      flatlist = flatlist.concat(flatBatchExecutesEntries[index]);
+      flatlist = flatlist.concat(flatBatchExecutesEntries[index].map(function(v) {
+        if (typeof v === 'string') {
+          return v.replace(REPLACE_BANG_REGEXP, '!1').replace(REPLACE_SLASH_REGEXP, '!2');
+        } else {
+          return v;
+        }
+      }));
       flatlist.push('extra');
       ch1 = false;
       cb1 = function(result) {
