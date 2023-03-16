@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    id="cordova-sqlite-evmax-feat-android-db-location"
-    version="0.0.1-dev">
+    id="cordova-sqlite-evmax-eu-common-free"
+    version="0.0.6-dev">
 
     <name>Cordova sqlite storage - free evmax common version branch with premium stability performance improvements including workaround for super-large INSERT transactions and SELECT results on Android (with external sqlite3 dependencies)</name>
 
@@ -64,6 +64,9 @@
         <source-file src="node_modules/cordova-sqlite-evmax-free-dependencies/libb64-core/cencode.c" />
         <header-file src="node_modules/cordova-sqlite-evmax-free-dependencies/libb64-core/cdecode.h" />
         <source-file src="node_modules/cordova-sqlite-evmax-free-dependencies/libb64-core/cdecode.c" />
+
+        <header-file src="node_modules/cordova-sqlite-evmax-free-dependencies/sqlite3-eu/sqlite3_eu.h" />
+        <source-file src="node_modules/cordova-sqlite-evmax-free-dependencies/sqlite3-eu/sqlite3_eu.c" />
 
         <header-file src="node_modules/cordova-sqlite-evmax-free-dependencies/sqlite3.h" />
         <source-file src="node_modules/cordova-sqlite-evmax-free-dependencies/sqlite3.c"
