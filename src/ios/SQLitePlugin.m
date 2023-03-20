@@ -14,6 +14,8 @@
 
 #import "sqlite3_base64.h"
 
+#import "sqlite3_eu.h"
+
 // Defines Macro to only log lines when in DEBUG mode
 #ifdef DEBUG
 #   define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
@@ -190,6 +192,8 @@
                 sqlite3_regexp_init(db, &err1);
 
                 sqlite3_base64_init(db);
+
+                sqlite3_eu_init(db, "UPPER", "LOWER");
 
                 // for SQLCipher version:
                 // NSString *dbkey = [options objectForKey:@"key"];
