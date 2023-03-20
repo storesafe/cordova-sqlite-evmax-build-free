@@ -40,6 +40,10 @@ Unlicense (public domain)
 
 Based on <http://libb64.sourceforge.net/> by Chris Venter, public domain)
 
+### sqlite3-eu
+
+MIT
+
 ### SQLite3
 
 public domain

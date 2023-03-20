@@ -1,4 +1,4 @@
-# Cordova/PhoneGap sqlite storage evmax feat branch - super-premium enterprise version with super-premium stability and performance improvements with limited extra features
+# Cordova/PhoneGap sqlite storage evmax EU common version branch - super-premium enterprise version with super-premium stability and performance improvements with limited extra features
 
 Native SQLite component with API based on HTML5/[Web SQL (DRAFT) API](http://www.w3.org/TR/webdatabase/) for the following platforms:
 - Android
@@ -199,12 +199,12 @@ See the [Sample section](#sample) for a sample with a more detailed explanation 
   - Cordova pre-7.0.0 do not automatically save the state of added plugins and platforms (`--save` flag is needed for Cordova pre-7.0.0)
   - It may be needed to use `cordova prepare` in case of cordova-ios pre-4.3.0 (Cordova CLI `6.4.0`).
   - Cordova versions older than `6.0.0` are missing the `cordova-ios@4.0.0` security fixes.
-- This plugin version uses a `before_plugin_install` hook to fetch and install <https://github.com/brodybits/cordova-sqlite-evmax-free-dependencies-dev> (with SQLite3 and android-sqlite-evmax-ndk-driver-free components) from npm.
+- This plugin version uses a `before_plugin_install` hook to fetch and install <https://github.com/brodybits/cordova-sqlite-evmax-free-dependencies-dev/tree/cordova-sqlite-evmax-free-dependencies-eu-support> (with SQLite3 and android-sqlite-evmax-ndk-driver-free components) from npm.
 - Use of other systems such as Cordova Plugman, PhoneGap CLI, PhoneGap Build, and Intel XDK is no longer supported by this plugin version since they do not honor the `before_plugin_install` hook. The supported solution is to use [litehelpers / Cordova-sqlite-evcore-extbuild-free](https://github.com/litehelpers/Cordova-sqlite-evcore-extbuild-free) (GPL or commercial license terms); deprecated alternative with permissive license terms is available at: [brodybits / cordova-sqlite-legacy-build-support](https://github.com/brodybits/cordova-sqlite-legacy-build-support) (very limited testing, very limited updates).
 - This plugin version includes the following extra (non-standard) features:
   - BASE64 and BLOBFROMBASE64 integrated from [brodybits / sqlite3-base64](https://github.com/brodybits/sqlite3-base64), using [brodybits / libb64-core](https://github.com/brodybits/libb64-core) (based on <http://libb64.sourceforge.net/> by Chris Venter, public domain)
   - REGEXP for Android (default Android-sqlite-connector database implementation), iOS, and macOS using [brodybits / sqlite3-regexp-cached](https://github.com/brodybits/sqlite3-regexp-cached) (based on <http://git.altlinux.org/people/at/packages/?p=sqlite3-pcre.git> by Alexey Tourbin, public domain)
-- SQLite __`3.40.0`__ included when building (all platforms), with the following compile-time definitions:
+- SQLite __`3.41.1`__ included when building (all platforms), with the following compile-time definitions:
   - `SQLITE_THREADSAFE=1`
   - `SQLITE_DEFAULT_SYNCHRONOUS=3` (EXTRA DURABLE build setting) ref: [xpbrew/cordova-sqlite-storage#736](https://github.com/xpbrew/cordova-sqlite-storage/issues/736)
   - `SQLITE_LOCKING_STYLE=1` on iOS/macOS ONLY
@@ -232,7 +232,7 @@ See the [Sample section](#sample) for a sample with a more detailed explanation 
   - <https://www.sqlite.org/releaselog/3_26_0.html>
 - The iOS database location is now mandatory, as documented below.
 - This version branch supports the use of two (2) possible Android sqlite database implementations:
-  - default: high-performance, lightweight [`android-sqlite-evmax-ndk-driver-free`](https://github.com/brodybits/android-sqlite-evmax-ndk-driver-free) NDK library (C-language implementation)
+  - default: high-performance, lightweight NDK library (C-language implementation) built from: <https://github.com/brodybits/android-sqlite-evmax-ndk-driver-free/tree/evmax-eu-support-2023>
   - optional: Android system database implementation, using the `androidDatabaseProvider: 'system'` setting in `sqlitePlugin.openDatabase()` call as described in the [Android database provider](#android-database-provider) section below.
 - The following feature is available in [brodybits/cordova-sqlite-ext](https://github.com/brodybits/cordova-sqlite-ext) (with permissive license terms, missing performance and stability enhancements from [`android-sqlite-evmax-ndk-driver-free`](https://github.com/brodybits/android-sqlite-evmax-ndk-driver-free)), MISSING in this plugin version:
   - Pre-populated database (Android/iOS/macOS/Windows)
@@ -252,7 +252,7 @@ See the [Sample section](#sample) for a sample with a more detailed explanation 
 - The **macOS** platform version (**"osx" platform**) is not tested in a release build and should be considered pre-alpha with known issues:
   - `cordova prepare osx` is needed before building and running from Xcode
   - known issue between `cordova-osx` and Cordova CLI `10.0.0`: <https://github.com/apache/cordova-osx/issues/106>
-- Android versions supported: _minimum 5.1, see also: <https://cordova.apache.org/docs/en/latest/guide/platforms/android/>_
+- Android versions supported: minimum __6.0__ _(see also: <https://cordova.apache.org/docs/en/latest/guide/platforms/android/>)_
 - iOS versions supported: 8.x / 9.x / 10.x / 11.x / 12.x (see [deviations section](#deviations) below for differences in case of WKWebView)
 - FTS3, FTS4, and R-Tree are fully tested and supported for all target platforms in this version branch.
 - Default `PRAGMA journal_mode` setting (*tested*):

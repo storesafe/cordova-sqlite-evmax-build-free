@@ -1,5 +1,9 @@
 # Changes
 
+## cordova-sqlite-evmax-eu-common-free 0.0.1-dev
+
+- EU character support in customized UPPER & LOWER functions using sqlite3-eu
+
 ## cordova-sqlite-evmax-feat-android-db-location 0.0.1-dev
 
 ## cordova-sqlite-evmax-common-free 0.0.6-dev
