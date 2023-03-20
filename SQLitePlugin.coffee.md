@@ -131,6 +131,31 @@
     SQLitePlugin::dbidmap = {}
     SQLitePlugin::fjmap = {}
 
+    SQLitePlugin::attach = (first, success, error) ->
+      dblocation =
+        if !!first.location and first.location is 'default'
+          iosLocationMap['default']
+        else if !!first.iosDatabaseLocation
+          iosLocationMap[first.iosDatabaseLocation]
+        else if !first.location and first.location isnt 0
+          iosLocationMap['default']
+        else
+          dblocations[first.location]
+
+      args =
+        dbname1: @dbname
+        dbname2: first.name
+        dblocation: dblocation
+        as: first.as
+
+      if !!first.androidDatabaseLocation
+        args.androidDatabaseLocation = first.androidDatabaseLocation
+
+      cordova.exec success, error, "SQLitePlugin", "attach", [args]
+
+    SQLitePlugin::detach = (alias, successcb, errorcb) ->
+      @executeSql 'DETACH ' + alias, [], (-> successcb()), errorcb
+
     SQLitePlugin::addTransaction = (t) ->
       if !txLocks[@dbname]
         txLocks[@dbname] = {

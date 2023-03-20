@@ -125,6 +125,37 @@ module.exports = {
 			win(results);
 		});
 	},
+	attach: function(win, fail, args) {
+	    var options = args[0];
+	    var res;
+
+	    var dbname = options.dbname1;
+	    var dbname2 = options.dbname2;
+	    var as = options.as;
+
+		if (!dbmap[dbname]) {
+				fail("INTERNAL PLUGIN ERROR: no connection found: " + dbname);
+		}
+
+		// get full attach db path in a similar fashion to the open method above
+		// from @EionRobb / phonegap-win8-sqlite:
+		var attachdbname = Windows.Storage.ApplicationData.current.localFolder.path + "\\" + dbname2;
+		console.log("attach db name: " + dbname2 + " with full path: " + attachdbname);
+
+		var db = dbmap[dbname];
+
+		// FUTURE TBD: add more graceful error checking & handling here
+		db.all("ATTACH ? AS " + as, [attachdbname]);
+
+		// FUTURE TBD separate params with "?" placeholder
+		var sql = "SELECT * FROM " + as + ".sqlite_master";
+		var rows = db.all(sql, []);
+		if (rows.length < 1) return fail("ATTACH ERROR: no rows in attached db .sqlite_master table")
+
+		nextTick(function() {
+			win();
+		});
+	},
 	"delete": function(win, fail, args) {
 	    var options = args[0];
 	    var res;

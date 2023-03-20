@@ -105,6 +105,27 @@ Contact for commercial license: sales@litehelpers.net
 
   SQLitePlugin.prototype.fjmap = {};
 
+  SQLitePlugin.prototype.attach = function(first, success, error) {
+    var args, dblocation;
+    dblocation = !!first.location && first.location === 'default' ? iosLocationMap['default'] : !!first.iosDatabaseLocation ? iosLocationMap[first.iosDatabaseLocation] : !first.location && first.location !== 0 ? iosLocationMap['default'] : dblocations[first.location];
+    args = {
+      dbname1: this.dbname,
+      dbname2: first.name,
+      dblocation: dblocation,
+      as: first.as
+    };
+    if (!!first.androidDatabaseLocation) {
+      args.androidDatabaseLocation = first.androidDatabaseLocation;
+    }
+    return cordova.exec(success, error, "SQLitePlugin", "attach", [args]);
+  };
+
+  SQLitePlugin.prototype.detach = function(alias, successcb, errorcb) {
+    return this.executeSql('DETACH ' + alias, [], (function() {
+      return successcb();
+    }), errorcb);
+  };
+
   SQLitePlugin.prototype.addTransaction = function(t) {
     if (!txLocks[this.dbname]) {
       txLocks[this.dbname] = {

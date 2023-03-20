@@ -2,6 +2,10 @@
 
 # cordova-sqlite-evmax-feat-attach-detach 0.0.1-dev
 
+# cordova-sqlite-evplus-attach-detach-free 0.0.3-dev
+
+- feat: support ATTACH & DETACH on Windows
+
 ## cordova-sqlite-evmax-feat-android-db-location 0.0.1-dev
 
 ## cordova-sqlite-evmax-common-free 0.0.6-dev
