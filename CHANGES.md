@@ -1,5 +1,7 @@
 # Changes
 
+## cordova-sqlite-evmax-feat-android-db-location 0.0.1-dev
+
 ## cordova-sqlite-evmax-common-free 0.0.6-dev
 
 - fix workaround for slash characters with Capacitor

@@ -1,4 +1,4 @@
-# Cordova/PhoneGap sqlite storage evmax common branch - super-premium enterprise version with super-premium stability and performance improvements with limited extra features
+# Cordova/PhoneGap sqlite storage evmax feat branch - super-premium enterprise version with super-premium stability and performance improvements with limited extra features
 
 Native SQLite component with API based on HTML5/[Web SQL (DRAFT) API](http://www.w3.org/TR/webdatabase/) for the following platforms:
 - Android
