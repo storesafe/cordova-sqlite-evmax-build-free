@@ -4,6 +4,7 @@
 
 - Custom Android database file location - now merged into cordova-sqlite-evmax-build-free
 - SQLite 3.43.1 update, with `SQLITE_ENABLE_MATH_FUNCTIONS` enabled for Android/iOS/Windows
+- build cleanup: remove extra dummy WinMD (etc.)
 
 ## cordova-sqlite-evmax-feat-android-db-location 0.0.2-dev
 
