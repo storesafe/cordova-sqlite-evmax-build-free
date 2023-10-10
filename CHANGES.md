@@ -2,6 +2,8 @@
 
 # cordova-sqlite-evmax-build-free 0.0.10-dev
 
+- fixup: update sqlite3.h for SQLite 3.43.1 (NOT expected to affect plugin behavior as this plugin does not use SQLITE_VERSION etc.)
+
 # cordova-sqlite-evmax-build-free 0.0.9
 
 - Custom Android database file location - now merged into cordova-sqlite-evmax-build-free
