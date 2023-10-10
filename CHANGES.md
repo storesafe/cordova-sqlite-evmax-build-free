@@ -2,6 +2,10 @@
 
 # cordova-sqlite-evmax-build-free 0.0.9-dev
 
+- SQLite 3.43.1 update - with TEMPORARY adaptations for now:
+  - SQLITE_ENABLE_MATH_FUNCTIONS for Android ONLY at this point
+  - comment out binary SQLite3 libs for Windows for now
+
 # cordova-sqlite-evmax-build-free 0.0.8
 
 ## cordova-sqlite-evmax-common-free 0.0.6-dev
