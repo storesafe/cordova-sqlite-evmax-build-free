@@ -1,4 +1,4 @@
-# Cordova/PhoneGap sqlite storage evmax - super-premium enterprise version with super-premium stability and performance improvements with limited extra features
+# Cordova/PhoneGap sqlite storage evmax - super-premium enterprise version with super-premium stability and performance improvements with EXTRA FEATURES INCLUDING ARBITRARY ANDROID DB LOCATION
 
 Native SQLite component with API based on HTML5/[Web SQL (DRAFT) API](http://www.w3.org/TR/webdatabase/) for the following platforms:
 - Android
@@ -220,7 +220,7 @@ See the [Sample section](#sample) for a sample with a more detailed explanation 
   - `SQLITE_ENABLE_RTREE`
   - `SQLITE_ENABLE_JSON1`
   - `SQLITE_ENABLE_RTREE`
-  - `SQLITE_ENABLE_MATH_FUNCTIONS` - _Android only at this point_
+  - `SQLITE_ENABLE_MATH_FUNCTIONS` - _Android/iOS/Windows_
   - `SQLITE_DEFAULT_PAGE_SIZE=4096` - new default page size ref: <http://sqlite.org/pgszchng2016.html>
   - `SQLITE_DEFAULT_CACHE_SIZE=-2000` - new default cache size ref: <http://sqlite.org/pgszchng2016.html>
   - `SQLITE_OS_WINRT` (Windows only)
@@ -264,6 +264,7 @@ See the [Sample section](#sample) for a sample with a more detailed explanation 
 
 - This plugin version includes super-premium workarounds to support super-large INSERT transactions on Android and resolve an issue with `/` character in Capacitor. It also includes premium improvements to the internal JSON interface between Javascript and native parts on Android, iOS, and macOS which improves the performance and resolves memory issues in case of some very large SQL batches and large SELECT results, with help from [`android-sqlite-evmax-ndk-driver-free`](https://github.com/brodybits/android-sqlite-evmax-ndk-driver-free) on Android.
 - This plugin version includes additional JavaScript performance enhancements with special benefit for Android.
+- Custom Android database location (supports external storage directory)
 - This plugin version includes the following extra (non-standard) features: BASE 64 (all platforms Android/iOS/macOS/Windows), REGEXP (Android/iOS/macOS)
 - Using `SQLITE_DEFAULT_SYNCHRONOUS=3` (EXTRA DURABLE) build setting to be extra robust against possible database corruption ref: [xpbrew/cordova-sqlite-storage#736](https://github.com/xpbrew/cordova-sqlite-storage/issues/736)
 - `SQLITE_DBCONFIG_DEFENSIVE` flag is used for extra SQL safety, as described above
@@ -855,6 +856,32 @@ where the `iosDatabaseLocation` option may be set to one of the following choice
 - `default`: `Library/LocalDatabase` subdirectory - *NOT* visible to iTunes and *NOT* backed up by iCloud
 - `Library`: `Library` subdirectory - backed up by iCloud, *NOT* visible to iTunes
 - `Documents`: `Documents` subdirectory - visible to iTunes and backed up by iCloud
+
+To specify a external or another custom Android database location, with help from cordova-plugin-file:
+
+```js
+window.resolveLocalFileSystemURL(cordova.file.externalDataDirectory, function(externalDataDirectoryEntry) {
+  var db = window.sqlitePlugin.openDatabase({name: 'external.db', androidDatabaseLocation: externalDataDirectoryEntry.toURL()});
+
+  db.transaction(function(tx) {
+    tx.executeSql('CREATE TABLE IF NOT EXISTS MyTable (data)');
+    tx.executeSql('INSERT INTO MyTable VALUES (?)', ['test-value']);
+  }, function(error) {
+    console.log('Populate database error: ' + error.message);
+
+  }, function() {
+    db.transaction(function(tx) {
+      tx.executeSql('SELECT data from MyTable', [], function(tx_ignored, resultSet) {
+        console.log('Record count: ' + resultSet.rows.length);
+        for (var i=0; i<resultSet.rows.length; ++i)
+          console.log('index: ' + i + ' value: ' + resultSet.rows.item(i).data);
+      });
+    }, function(error) {
+      console.log('Populate database error: ' + error.message);
+    });
+  });
+});
+```
 
 **WARNING:** Again, the new "default" iosDatabaseLocation value is *NOT* the same as the old default location and would break an upgrade for an app using the old default value (0) on iOS.
 

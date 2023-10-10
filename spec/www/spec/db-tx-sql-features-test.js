@@ -362,6 +362,27 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
+        it(suiteName + 'Math functions test', function(done) {
+          if (isWebSql) pending('SKIP for (WebKit) Web SQL');
+          if (isAndroid && isImpl2) pending('XXX XXX android.database'); // XXX
+          if (isMac) pending('NOT SUPPORTED for macOS');
+
+          var db = openDatabase('math-functions-test.db');
+          expect(db).toBeDefined();
+
+          db.transaction(function(tx) {
+            tx.executeSql("SELECT COS(PI()) AS my_value;", null, function(tx, res) {
+              expect(res.rows.item(0).my_value).toEqual(-1);
+              // Close (plugin only) & finish:
+              db.close(done, done);
+            }, function(tx, e) {
+              // NOT EXPECTED (went wrong):
+              expect(JSON.stringify(e)).toBe('--');
+              done.fail();
+            });
+          });
+        }, MYTIMEOUT);
+
     });
 
   }
