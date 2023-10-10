@@ -1,5 +1,7 @@
 # Changes
 
+# cordova-sqlite-evmax-build-free 0.0.10-dev
+
 # cordova-sqlite-evmax-build-free 0.0.9
 
 - Custom Android database file location - now merged into cordova-sqlite-evmax-build-free
