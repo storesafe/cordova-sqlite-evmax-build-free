@@ -1,5 +1,18 @@
 # Changes
 
+## cordova-sqlite-evmax-common-free 0.0.x-xxx-xxx
+
+- _update xxx & xxx for sqlite xxx_
+- _update xxx for math xxx xxx_
+
+### cordova-sqlite-evcore-common-free 0.7.3-dev
+
+- enable SQLite3 math functions for Windows (and update test case)
+
+### cordova-sqlite-evcore-common-free 0.7.2-dev
+
+- enable SQLite3 math functions for iOS (only), with new test case feature ref: https://www.sqlite.org/lang_mathfunc.html
+
 ## cordova-sqlite-evmax-common-free 0.0.6-dev
 
 - fix workaround for slash characters with Capacitor
