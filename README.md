@@ -223,7 +223,7 @@ See the [Sample section](#sample) for a sample with a more detailed explanation 
   - `SQLITE_ENABLE_RTREE`
   - `SQLITE_ENABLE_JSON1`
   - `SQLITE_ENABLE_RTREE`
-  - `SQLITE_ENABLE_MATH_FUNCTIONS` - Android only
+  - `SQLITE_ENABLE_MATH_FUNCTIONS` - _Android/iOS/Windows_
   - `SQLITE_DEFAULT_PAGE_SIZE=4096` - new default page size ref: <http://sqlite.org/pgszchng2016.html>
   - `SQLITE_DEFAULT_CACHE_SIZE=-2000` - new default cache size ref: <http://sqlite.org/pgszchng2016.html>
   - `SQLITE_OS_WINRT` (Windows only)
