@@ -1,6 +1,6 @@
 # Changes
 
-# cordova-sqlite-evmax-build-free 0.0.10-dev
+# cordova-sqlite-evmax-build-free 0.0.10
 
 - support new Android page size with NDK rebuild using NDK r29
 - fixup: update sqlite3.h for SQLite 3.43.1 (NOT expected to affect plugin behavior as this plugin does not use SQLITE_VERSION etc.)
