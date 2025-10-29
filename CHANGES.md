@@ -1,5 +1,9 @@
 # Changes
 
+# cordova-sqlite-evmax-build-free 0.0.11
+
+- rebuild JAR with JDK 17, as needed by many build systems with Gradle 8
+
 # cordova-sqlite-evmax-build-free 0.0.10
 
 - support new Android page size with NDK rebuild using NDK r29
