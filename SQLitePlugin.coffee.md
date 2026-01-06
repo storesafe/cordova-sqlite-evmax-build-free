@@ -721,10 +721,13 @@
         cb1 = (result) ->
           if result[0] is 'multi'
             ch1 = true
+            cordova.exec cb1, null, "SQLitePlugin", "fj:0;extra", [mydbid, 0]
           else if result[0] isnt null
             resultSet = resultSet.concat result.slice(0, result.length-1)
             if !ch1
               cb1 [null]
+            if ch1
+              cordova.exec cb1, null, "SQLitePlugin", "fj:0;extra", [mydbid, 0]
           else # if result[0] is null
             if (index + 1 == batchExecutesLength)
               cb resultSet

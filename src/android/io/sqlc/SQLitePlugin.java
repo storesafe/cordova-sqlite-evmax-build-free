@@ -485,10 +485,10 @@ public class SQLitePlugin extends CordovaPlugin {
                         final String jr1 = EVNDKDriver.sqlc_evplus_qc_execute(qc, dbq.fj);
                         final boolean multi = jr1.charAt(2) == 'm';
                         final PluginResult pr1 = new MyPluginResult(jr1);
-                        if (multi) {
-                            pr1.setKeepCallback(true);
-                        }
                         dbq.cbc.sendPluginResult(pr1);
+                        if (multi) {
+                            dbq = q.take();
+                        }
 
                         boolean more = multi;
 
@@ -496,10 +496,10 @@ public class SQLitePlugin extends CordovaPlugin {
                             final String jr2 = EVNDKDriver.sqlc_evplus_qc_execute(qc, "");
                             more = jr2.charAt(1) != 'n';
                             final PluginResult pr2 = new MyPluginResult(jr2);
-                            if (more) {
-                                pr2.setKeepCallback(true);
-                            }
                             dbq.cbc.sendPluginResult(pr2);
+                            if (more) {
+                                dbq = q.take();
+                            }
                         }
 
                         // cleanup:
