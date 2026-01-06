@@ -2053,7 +2053,7 @@ var mytests = function() {
 
           db.transaction(function(tx) {
 
-            tx.executeSql('SELECT UPPER(?) AS upper_result', ['Test ¢ é €'], function(ignored, rs) {
+            tx.executeSql('SELECT UPPER(?) AS upper_result', ['Test ¢ é € đ ď ð '], function(ignored, rs) {
               expect(rs).toBeDefined();
               expect(rs.rows).toBeDefined();
               expect(rs.rows.length).toBe(1);
