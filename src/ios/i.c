@@ -36,7 +36,7 @@
 #include <unicode/utypes.h>
 #include <unicode/uregex.h>
 #include <unicode/ustring.h>
-#include <unicode/ucol.h>
+//#include <unicode/ucol.h>
 
 #include <assert.h>
 
@@ -417,33 +417,33 @@ static void icuCaseFunc16(sqlite3_context *p, int nArg, sqlite3_value **apArg){
 ** Collation sequence destructor function. The pCtx argument points to
 ** a UCollator structure previously allocated using ucol_open().
 */
-static void icuCollationDel(void *pCtx){
-  UCollator *p = (UCollator *)pCtx;
-  ucol_close(p);
-}
+//static void icuCollationDel(void *pCtx){
+//  UCollator *p = (UCollator *)pCtx;
+//  ucol_close(p);
+//}
 
 /*
 ** Collation sequence comparison function. The pCtx argument points to
 ** a UCollator structure previously allocated using ucol_open().
 */
-static int icuCollationColl(
-  void *pCtx,
-  int nLeft,
-  const void *zLeft,
-  int nRight,
-  const void *zRight
-){
-  UCollationResult res;
-  UCollator *p = (UCollator *)pCtx;
-  res = ucol_strcoll(p, (UChar *)zLeft, nLeft/2, (UChar *)zRight, nRight/2);
-  switch( res ){
-    case UCOL_LESS:    return -1;
-    case UCOL_GREATER: return +1;
-    case UCOL_EQUAL:   return 0;
-  }
-  assert(!"Unexpected return value from ucol_strcoll()");
-  return 0;
-}
+//static int icuCollationColl(
+//  void *pCtx,
+//  int nLeft,
+//  const void *zLeft,
+//  int nRight,
+//  const void *zRight
+//){
+//  UCollationResult res;
+//  UCollator *p = (UCollator *)pCtx;
+//  res = ucol_strcoll(p, (UChar *)zLeft, nLeft/2, (UChar *)zRight, nRight/2);
+//  switch( res ){
+//    case UCOL_LESS:    return -1;
+//    case UCOL_GREATER: return +1;
+//    case UCOL_EQUAL:   return 0;
+//  }
+//  assert(!"Unexpected return value from ucol_strcoll()");
+//  return 0;
+//}
 
 /*
 ** Implementation of the scalar function icu_load_collation().
@@ -458,42 +458,42 @@ static int icuCollationColl(
 ** "en_AU", "tr_TR" etc.) and <collation-name> is the name of the
 ** collation sequence to create.
 */
-static void icuLoadCollation(
-  sqlite3_context *p, 
-  int nArg, 
-  sqlite3_value **apArg
-){
-  sqlite3 *db = (sqlite3 *)sqlite3_user_data(p);
-  UErrorCode status = U_ZERO_ERROR;
-  const char *zLocale;      /* Locale identifier - (eg. "jp_JP") */
-  const char *zName;        /* SQL Collation sequence name (eg. "japanese") */
-  UCollator *pUCollator;    /* ICU library collation object */
-  int rc;                   /* Return code from sqlite3_create_collation_x() */
-
-  assert(nArg==2);
-  (void)nArg; /* Unused parameter */
-  zLocale = (const char *)sqlite3_value_text(apArg[0]);
-  zName = (const char *)sqlite3_value_text(apArg[1]);
-
-  if( !zLocale || !zName ){
-    return;
-  }
-
-  pUCollator = ucol_open(zLocale, &status);
-  if( !U_SUCCESS(status) ){
-    icuFunctionError(p, "ucol_open", status);
-    return;
-  }
-  assert(p);
-
-  rc = sqlite3_create_collation_v2(db, zName, SQLITE_UTF16, (void *)pUCollator, 
-      icuCollationColl, icuCollationDel
-  );
-  if( rc!=SQLITE_OK ){
-    ucol_close(pUCollator);
-    sqlite3_result_error(p, "Error registering collation function", -1);
-  }
-}
+//static void icuLoadCollation(
+//  sqlite3_context *p, 
+//  int nArg, 
+//  sqlite3_value **apArg
+//){
+//  sqlite3 *db = (sqlite3 *)sqlite3_user_data(p);
+//  UErrorCode status = U_ZERO_ERROR;
+//  const char *zLocale;      /* Locale identifier - (eg. "jp_JP") */
+//  const char *zName;        /* SQL Collation sequence name (eg. "japanese") */
+//  UCollator *pUCollator;    /* ICU library collation object */
+//  int rc;                   /* Return code from sqlite3_create_collation_x() */
+//
+//  assert(nArg==2);
+//  (void)nArg; /* Unused parameter */
+//  zLocale = (const char *)sqlite3_value_text(apArg[0]);
+//  zName = (const char *)sqlite3_value_text(apArg[1]);
+//
+//  if( !zLocale || !zName ){
+//    return;
+//  }
+//
+//  pUCollator = ucol_open(zLocale, &status);
+//  if( !U_SUCCESS(status) ){
+//    icuFunctionError(p, "ucol_open", status);
+//    return;
+//  }
+//  assert(p);
+//
+//  rc = sqlite3_create_collation_v2(db, zName, SQLITE_UTF16, (void *)pUCollator, 
+//      icuCollationColl, icuCollationDel
+//  );
+//  if( rc!=SQLITE_OK ){
+//    ucol_close(pUCollator);
+//    sqlite3_result_error(p, "Error registering collation function", -1);
+//  }
+//}
 
 /*
 ** Register the ICU extension functions with database db.
@@ -506,7 +506,7 @@ int sqlite3IcuInit(sqlite3 *db){
     unsigned char iContext;                   /* sqlite3_user_data() context */
     void (*xFunc)(sqlite3_context*,int,sqlite3_value**);
   } scalars[] = {
-    {"icu_load_collation",  2, SQLITE_UTF8,                1, icuLoadCollation},
+//    {"icu_load_collation",  2, SQLITE_UTF8,                1, icuLoadCollation},
 #if !defined(SQLITE_CORE) || defined(SQLITE_ENABLE_ICU)
     {"regexp", 2, SQLITE_ANY|SQLITE_DETERMINISTIC,         0, icuRegexpFunc},
     {"lower",  1, SQLITE_UTF16|SQLITE_DETERMINISTIC,       0, icuCaseFunc16},
