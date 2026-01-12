@@ -1,6 +1,6 @@
 # Changes
 
-# cordova-sqlite-evmax-build-free 0.0.12-dev
+# cordova-sqlite-evmax-build-free 0.0.12
 
 - update SQLite -> 3.51.2
 - disable support for macOS ("OSX") & Windows (deprecated Cordova platforms)
