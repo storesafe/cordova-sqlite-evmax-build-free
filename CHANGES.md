@@ -1,5 +1,7 @@
 # Changes
 
+# cordova-sqlite-evmax-build-free 0.0.12-dev
+
 # cordova-sqlite-evmax-build-free 0.0.11
 
 - rebuild JAR with JDK 17, as needed by many build systems with Gradle 8
