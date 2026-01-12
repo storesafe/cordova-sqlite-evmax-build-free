@@ -2,6 +2,8 @@
 
 ## cordova-sqlite-evmax-common-free 0.0.8-dev
 
+- more robust handling of large results on Android - update to stop using PluginResult.setKeepCallback()
+
 ## cordova-sqlite-evmax-common-free 0.0.7-dev
 
 - _SQLite3 math functions now tested for Android/iOS/Windows_
