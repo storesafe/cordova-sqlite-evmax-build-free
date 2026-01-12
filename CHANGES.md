@@ -2,6 +2,8 @@
 
 # cordova-sqlite-evmax-build-free 0.0.12-dev
 
+- disable support for macOS ("OSX") & Windows (deprecated Cordova platforms)
+
 # cordova-sqlite-evmax-build-free 0.0.11
 
 - rebuild JAR with JDK 17, as needed by many build systems with Gradle 8
