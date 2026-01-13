@@ -1,5 +1,7 @@
 # Changes
 
+# cordova-sqlite-evmax-build-free 0.1.0-dev
+
 # cordova-sqlite-evmax-build-free 0.0.12
 
 - update SQLite -> 3.51.2
