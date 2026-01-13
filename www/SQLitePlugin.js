@@ -631,10 +631,14 @@ Contact for commercial license: sales@litehelpers.net
       cb1 = function(result) {
         if (result[0] === 'multi') {
           ch1 = true;
+          cordova.exec(cb1, null, "SQLitePlugin", "fjnext:0;extra", [mydbid, 0]);
         } else if (result[0] !== null) {
           resultSet = resultSet.concat(result.slice(0, result.length - 1));
           if (!ch1) {
             cb1([null]);
+          }
+          if (ch1) {
+            cordova.exec(cb1, null, "SQLitePlugin", "fjnext:0;extra", [mydbid, 0]);
           }
         } else {
           if (index + 1 === batchExecutesLength) {
