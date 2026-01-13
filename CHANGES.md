@@ -1,5 +1,7 @@
 # Changes
 
+## cordova-sqlite-evmax-common-free 0.0.8-dev
+
 ## cordova-sqlite-evmax-common-free 0.0.7-dev
 
 - _SQLite3 math functions now tested for Android/iOS/Windows_
