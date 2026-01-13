@@ -1,6 +1,6 @@
 # Changes
 
-# cordova-sqlite-evmax-build-free 0.1.0-dev
+# cordova-sqlite-evmax-build-free 0.1.0
 
 ## cordova-sqlite-evmax-feat-android-db-location 0.0.3-dev
 
