@@ -1094,6 +1094,7 @@ var mytests = function() {
               // - plugin with androidDatabaseImplementation: 2 on
               //   Android 4.4 & newer
               if ((isWebSql && isChromeBrowser) ||
+                  !isWebSql || // PLUGIN WITH BUILT-IN ICU SUPPORT
                   (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(resultRow1.myresult).toBe('AÉ');
               else
@@ -1112,6 +1113,7 @@ var mytests = function() {
                 // - plugin with androidDatabaseImplementation: 2 on
                 //   Android 4.4 & newer
                 if ((isWebSql && isChromeBrowser) ||
+                    !isWebSql || // PLUGIN WITH BUILT-IN ICU SUPPORT
                     (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                   expect(resultRow2.myresult).toBe('BÉ');
                 else
@@ -1150,6 +1152,7 @@ var mytests = function() {
               // - plugin with androidDatabaseImplementation: 2 on
               //   Android 4.4 & newer
               if ((isWebSql && isChromeBrowser) ||
+                  !isWebSql || // PLUGIN WITH BUILT-IN ICU SUPPORT
                   (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(resultRow1.myresult).toBe('aé');
               else
@@ -1168,6 +1171,7 @@ var mytests = function() {
                 // - plugin with androidDatabaseImplementation: 2 on
                 //   Android 4.4 & newer
                 if ((isWebSql && isChromeBrowser) ||
+                    !isWebSql || // PLUGIN WITH BUILT-IN ICU SUPPORT
                     (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                   expect(resultRow2.myresult).toBe('bé');
                 else
@@ -1206,6 +1210,7 @@ var mytests = function() {
               // - plugin with androidDatabaseImplementation: 2 on
               //   Android 4.4 & newer
               if ((isWebSql && isChromeBrowser) ||
+                  !isWebSql || // PLUGIN WITH BUILT-IN ICU SUPPORT
                   (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(resultRow1.myresult).toBe('STRASSE');
               else
@@ -1224,6 +1229,7 @@ var mytests = function() {
                 // - plugin with androidDatabaseImplementation: 2 on
                 //   Android 4.4 & newer
                 if ((isWebSql && isChromeBrowser) ||
+                    !isWebSql || // PLUGIN WITH BUILT-IN ICU SUPPORT
                     (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                   expect(resultRow2.myresult).toBe('STRASSE');
                 else
@@ -1434,6 +1440,7 @@ var mytests = function() {
               // - plugin with androidDatabaseImplementation: 2 on
               //   Android 4.4 & newer
               if ((isWebSql && isChromeBrowser) ||
+                  !isWebSql || // PLUGIN WITH BUILT-IN ICU SUPPORT
                   (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(resultRow1.myresult).toBe('straße');
               else
@@ -1452,6 +1459,7 @@ var mytests = function() {
                 // - plugin with androidDatabaseImplementation: 2 on
                 //   Android 4.4 & newer
                 if ((isWebSql && isChromeBrowser) ||
+                    !isWebSql || // PLUGIN WITH BUILT-IN ICU SUPPORT
                     (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                   expect(resultRow2.myresult).toBe('straße');
                 else
@@ -1597,6 +1605,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
+        /* ** NOT SUPPORTING OR TESTING THIS CASE WITH BUILT-IN ICU LIB:
         it(suiteName + "SELECT LOWER(X'41EDA080EDBCB1') - result column value is '\\uED41\u80A0\\uBCED' ('\uED41\u80A0\uBCED') on Android 4.1-4.3 (WebKit) Web SQL & Windows (UTF-16le), 'a\uD800\uDF31' (non-standard encoding) on Android with default Android NDK provider on all Android versions & androidDatabaseProvider: 'system' on Android 4.x, MISSING on iOS/macOS plugin, 'a\\uFFFD\\uFFFD' ('a\uFFFD\uFFFD') on Android with androidDatabaseProvider: 'system' on Android post-4.x & (WebKit) Web SQL (Android post-4.3/iOS/Browser)", function(done) {
           // ref:
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
@@ -1630,6 +1639,7 @@ var mytests = function() {
             (isWebSql) ? done() : db.close(done, done);
           });
         }, MYTIMEOUT);
+        ** NOT SUPPORTING OR TESTING THIS CASE WITH BUILT-IN ICU LIB */
 
         it(suiteName + 'Inline emoji string manipulation test: SELECT UPPER("a\\uD83D\\uDE03.") [\\u1F603 SMILING FACE (MOUTH OPEN)] - ENCODING ISSUE NOW FIXED on default Android SQLite3 NDK [evplus] implementation for Android post-5.x', function(done) {
           // ref:
@@ -1777,6 +1787,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
+        /* ** NOT SUPPORTING OR TESTING THIS CASE WITH BUILT-IN ICU LIB:
         it(suiteName + "SELECT LOWER(X'41EDA0BDEDB88321') - result column value is '\\uED41\\uBDA0\\uB8ED\\u2183' ('\uED41\uBDA0\uB8ED\u2183') on Android 4.1-4.3 (WebKit) Web SQL & Windows (UTF-16le), 'a\\uD83D\\uDE03!' ('a\uD83D\uDE03!') [non-standard encoding] on Android with default Android NDK provider on all Android versions & androidDatabaseProvider: 'system' on Android 4.x, MISSING on iOS/macOS plugin, '\\uED41\\uBDA0\\uB8ED\\u2183' ('\uED41\uBDA0\uB8ED\u2183') on Android with androidDatabaseProvider: 'system' on Android post-4.x & (WebKit) Web SQL (Android post-4.3/iOS/Browser)", function(done) {
           // ref:
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
@@ -1822,6 +1833,7 @@ var mytests = function() {
             done.fail();
           });
         }, MYTIMEOUT);
+        ** NOT SUPPORTING OR TESTING THIS CASE WITH BUILT-IN ICU LIB */
 
         // NOTE: the next 3 tests show that for iOS/macOS/Android:
         // - UNICODE \u2028 line separator from JavaScript to native (Objective-C/Java) is working OK
@@ -2030,6 +2042,7 @@ var mytests = function() {
               // - plugin with androidDatabaseImplementation: 2 on
               //   Android 4.4 & newer
               if ((isWebSql && isChromeBrowser) ||
+                  !isWebSql || // PLUGIN WITH BUILT-IN ICU SUPPORT
                   (isAndroid && ((isWebSql && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(rs.rows.item(0).upper_result).toBe('TEST ¢ É €');
               else
@@ -2062,6 +2075,7 @@ var mytests = function() {
               // - plugin with androidDatabaseImplementation: 2 on
               //   Android 4.4 & newer
               if ((isWebSql && isChromeBrowser) ||
+                    !isWebSql || // PLUGIN WITH BUILT-IN ICU SUPPORT
                   (isAndroid && ((isWebSql && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(rs.rows.item(0).upper_result).toBe('TEST ¢ É €');
               else
