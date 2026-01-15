@@ -64,8 +64,8 @@
         <source-file src="node_modules/cordova-sqlite-evmax-free-dependencies/libb64-core/cencode.c" />
         <header-file src="node_modules/cordova-sqlite-evmax-free-dependencies/libb64-core/cdecode.h" />
         <source-file src="node_modules/cordova-sqlite-evmax-free-dependencies/libb64-core/cdecode.c" />
-        <header-file src="src/icu/i.h" />
-        <source-file src="src/icu/i.c" />
+        <header-file src="src/icu/sqliteicu.h" />
+        <source-file src="src/icu/icu.c" />
 
         <header-file src="node_modules/cordova-sqlite-evmax-free-dependencies/sqlite3.h" />
         <source-file src="node_modules/cordova-sqlite-evmax-free-dependencies/sqlite3.c"

@@ -14,7 +14,7 @@
 
 #import "sqlite3_base64.h"
 
-#import "i.h"
+#import "sqliteicu.h"
 
 // Defines Macro to only log lines when in DEBUG mode
 #ifdef DEBUG
