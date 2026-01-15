@@ -56,6 +56,8 @@ under consideration:
 
 Super-premium enterprise version with additional performance and stability improvements for Android, iOS, ~~and macOS,~~ including workarounds for super-large INSERT transactions and SELECT results on Android - with limited extra features (missing pre-populated database support)
 
+with ICU support from built-in ICU lib on Android & iOS, using Android JAR built from: https://github.com/brody4hire/android-sqlite-evmax-ndk-driver-free/tree/evmax-icu-support-2026-01
+
 <!-- FUTURE TBD critical bug notices for this plugin version -->
 
 <!-- END About this plugin version branch -->
