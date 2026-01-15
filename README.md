@@ -56,6 +56,8 @@ under consideration:
 
 Super-premium enterprise version with additional performance and stability improvements for Android, iOS, ~~and macOS,~~ including workarounds for super-large INSERT transactions and SELECT results on Android - with limited extra features (missing pre-populated database support)
 
+with ICU support for Android & iOS using built-in platform ICU on each platform, using Android JAR built from: https://github.com/brody4hire/android-sqlite-evmax-ndk-driver-free/tree/evmax-icu-support-2026-01
+
 <!-- FUTURE TBD critical bug notices for this plugin version -->
 
 <!-- END About this plugin version branch -->
@@ -252,7 +254,7 @@ See the [Sample section](#sample) for a sample with a more detailed explanation 
 - The **macOS** platform version (**"osx" platform**) is not tested in a release build and should be considered pre-alpha with known issues:
   - `cordova prepare osx` is needed before building and running from Xcode
   - known issue between `cordova-osx` and Cordova CLI `10.0.0`: <https://github.com/apache/cordova-osx/issues/106>
-- Android versions supported: _minimum 5.1, see also: <https://cordova.apache.org/docs/en/latest/guide/platforms/android/>_
+- Android versions supported: _minimum 12, see also: <https://cordova.apache.org/docs/en/latest/guide/platforms/android/>_
 - iOS versions supported: 8.x / 9.x / 10.x / 11.x / 12.x (see [deviations section](#deviations) below for differences in case of WKWebView)
 - FTS3, FTS4, and R-Tree are fully tested and supported for all target platforms in this version branch.
 - Default `PRAGMA journal_mode` setting (*tested*):

@@ -36,7 +36,9 @@
 #include <unicode/utypes.h>
 #include <unicode/uregex.h>
 #include <unicode/ustring.h>
+#if 0 // AVOID BUILD ISSUE WITH COLLATION
 #include <unicode/ucol.h>
+#endif // AVOID BUILD ISSUE WITH COLLATION
 
 #include <assert.h>
 
@@ -414,6 +416,7 @@ static void icuCaseFunc16(sqlite3_context *p, int nArg, sqlite3_value **apArg){
 
 #endif /* !defined(SQLITE_CORE) || defined(SQLITE_ENABLE_ICU) */
 
+#if 0 // AVOID BUILD ISSUE WITH COLLATION
 /*
 ** Collation sequence destructor function. The pCtx argument points to
 ** a UCollator structure previously allocated using ucol_open().
@@ -527,6 +530,7 @@ static void icuLoadCollation(
     sqlite3_result_error(p, "Error registering collation function", -1);
   }
 }
+#endif // AVOID BUILD ISSUE WITH COLLATION
 
 /*
 ** Register the ICU extension functions with database db.
@@ -540,10 +544,14 @@ int sqlite3IcuInit(sqlite3 *db){
     unsigned char iContext;                   /* sqlite3_user_data() context */
     void (*xFunc)(sqlite3_context*,int,sqlite3_value**);
   } scalars[] = {
+#if 0 // AVOID BUILD ISSUE WITH COLLATION
     {"icu_load_collation",2,SQLITE_UTF8|SQLITE_DIRECTONLY,1, icuLoadCollation},
     {"icu_load_collation",3,SQLITE_UTF8|SQLITE_DIRECTONLY,1, icuLoadCollation},
+#endif // AVOID BUILD ISSUE WITH COLLATION
 #if !defined(SQLITE_CORE) || defined(SQLITE_ENABLE_ICU)
+#if 0 // AVOID INCONSISTENCY WITH ANDROID PLATFORM - CLEANUP TODO REMOVE OTHER REGEXP FUNCTIONS FROM THIS BUILD
     {"regexp", 2, SQLITE_ANY|SQLITEICU_EXTRAFLAGS,         0, icuRegexpFunc},
+#endif
     {"lower",  1, SQLITE_UTF16|SQLITEICU_EXTRAFLAGS,       0, icuCaseFunc16},
     {"lower",  2, SQLITE_UTF16|SQLITEICU_EXTRAFLAGS,       0, icuCaseFunc16},
     {"upper",  1, SQLITE_UTF16|SQLITEICU_EXTRAFLAGS,       1, icuCaseFunc16},
