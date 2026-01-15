@@ -58,6 +58,8 @@ Super-premium enterprise version with additional performance and stability impro
 
 with ICU support for Android & iOS using built-in platform ICU on each platform, using Android JAR built from: https://github.com/brody4hire/android-sqlite-evmax-ndk-driver-free/tree/evmax-icu-support-2026-01
 
+NOTE that this should work for UPPER, LOWER, & LIKE functions. REGEXP & `icu_load_collation` cannot be supported consistently by built-in platform ICU on all platforms.
+
 <!-- FUTURE TBD critical bug notices for this plugin version -->
 
 <!-- END About this plugin version branch -->
