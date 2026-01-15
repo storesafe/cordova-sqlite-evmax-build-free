@@ -54,7 +54,7 @@ under consideration:
 
 ## About this plugin version
 
-Super-premium enterprise version with additional performance and stability improvements for Android, iOS, ~~and macOS,~~ including workarounds for super-large INSERT transactions and SELECT results on Android - with limited extra features (missing pre-populated database support), using the `before_plugin_install` hook to fetch the sqlite3 component dependencies from <https://github.com/brodybits/cordova-sqlite-evmax-free-dependencies-dev>.
+Super-premium enterprise version with additional performance and stability improvements for Android, iOS, ~~and macOS,~~ including workarounds for super-large INSERT transactions and SELECT results on Android - with limited extra features (missing pre-populated database support)
 
 <!-- FUTURE TBD critical bug notices for this plugin version -->
 
