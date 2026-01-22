@@ -1,5 +1,9 @@
 # Changes
 
+# cordova-sqlite-evmax-build-free 0.2.1
+
+- libb64 decoding bugfix for Android ref: https://github.com/storesafe/cordova-sqlite-evmax-build-free/issues/11
+
 # cordova-sqlite-evmax-build-free 0.2.0
 
 - add ICU support for Android & iOS using built-in platform ICU on each platform (requires Android 12+)
