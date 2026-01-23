@@ -8,6 +8,8 @@
 
 - add ICU support for Android & iOS using built-in platform ICU on each platform (requires Android 12+)
 
+# cordova-sqlite-evmax-build-free 0.1.0
+
 ## cordova-sqlite-evmax-feat-android-db-location 0.0.3-dev
 
 ## cordova-sqlite-evmax-common-free 0.0.8-dev
