@@ -1,5 +1,9 @@
 # Changes
 
+# cordova-sqlite-evmax-build-free 0.1.1
+
+- patch with libb64 decoding bugfix for Android ref: https://github.com/storesafe/cordova-sqlite-evmax-build-free/issues/11
+
 # cordova-sqlite-evmax-build-free 0.2.1
 
 - libb64 decoding bugfix for Android ref: https://github.com/storesafe/cordova-sqlite-evmax-build-free/issues/11
