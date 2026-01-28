@@ -408,6 +408,7 @@ public class SQLitePlugin extends CordovaPlugin {
         void open(File dbFile) throws Exception {
             if (!isNativeLibLoaded) {
                 System.loadLibrary("sqlc-evmax-ndk-driver");
+                EVNDKDriver.sqlc_evmax_set_result_chunk_cutoff_size(500 * 1000);
                 isNativeLibLoaded = true;
             }
 
