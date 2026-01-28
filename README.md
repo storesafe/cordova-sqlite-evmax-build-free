@@ -56,7 +56,7 @@ under consideration:
 
 Super-premium enterprise version with additional performance and stability improvements for Android, iOS, ~~and macOS,~~ including workarounds for super-large INSERT transactions and SELECT results on Android - with limited extra features (missing pre-populated database support)
 
-with ICU support for Android & iOS using built-in platform ICU on each platform, using Android JAR built from: https://github.com/brody4hire/android-sqlite-evmax-ndk-driver-free/tree/evmax-icu-support-2026-01
+with ICU support for Android & iOS using built-in platform ICU on each platform
 
 NOTE that this should work for UPPER, LOWER, & LIKE functions. REGEXP & `icu_load_collation` cannot be supported consistently by built-in platform ICU on all platforms.
 
