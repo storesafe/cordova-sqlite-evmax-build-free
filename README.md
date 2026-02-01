@@ -56,7 +56,7 @@ under consideration:
 
 Super-premium enterprise version with additional performance and stability improvements for Android, iOS, ~~and macOS,~~ including workarounds for super-large INSERT transactions and SELECT results on Android - with limited extra features (missing pre-populated database support)
 
-with ICU support for Android & iOS using built-in platform ICU on each platform
+with ICU support for Android & iOS using built-in platform ICU on each platform - requires minimum Android 12; Android pre-12 supported by 0.1.x with limited updates
 
 NOTE that this should work for UPPER, LOWER, & LIKE functions. REGEXP & `icu_load_collation` cannot be supported consistently by built-in platform ICU on all platforms.
 
