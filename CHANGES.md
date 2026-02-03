@@ -1,5 +1,9 @@
 # Changes
 
+# cordova-sqlite-evmax-build-free patch 0.1.3
+
+- patch: further improve large read performance on Android with even larger internal result chunk size
+
 # cordova-sqlite-evmax-build-free patch 0.1.2
 
 - patch: improve large read performance on Android with larger internal result chunk size, with Android NDK JAR rebuilt with update from: https://github.com/brody4hire/android-sqlite-evmax-ndk-driver-free/tree/evmax-main-no-icu
