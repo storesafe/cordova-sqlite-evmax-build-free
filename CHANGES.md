@@ -1,6 +1,6 @@
 # Changes
 
-# cordova-sqlite-evmax-build-free 0.3.1-dev
+# cordova-sqlite-evmax-build-free 0.4.0
 
 - further improve large read performance on Android with even larger internal result chunk size
 
